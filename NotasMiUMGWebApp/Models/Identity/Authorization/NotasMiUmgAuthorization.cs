@@ -2,93 +2,35 @@
 
 namespace NotasMiUmg.Authorization
 {
-    public static class CarreraOperations
+
+    public static class CrudOperations
     {
-        public static OperationAuthorizationRequirement Create =
-          new OperationAuthorizationRequirement { Name = OperationConstants.CreateOperationName };
-        public static OperationAuthorizationRequirement Read =
-          new OperationAuthorizationRequirement { Name = OperationConstants.ReadOperationName };
-        public static OperationAuthorizationRequirement Update =
-          new OperationAuthorizationRequirement { Name = OperationConstants.UpdateOperationName };
-        public static OperationAuthorizationRequirement Delete =
-          new OperationAuthorizationRequirement { Name = OperationConstants.DeleteOperationName };
-
-    }
-
-    public static class PensumOperations
-    {
-        public static OperationAuthorizationRequirement Create =
-          new OperationAuthorizationRequirement { Name = OperationConstants.CreateOperationName };
-        public static OperationAuthorizationRequirement Read =
-          new OperationAuthorizationRequirement { Name = OperationConstants.ReadOperationName };
-        public static OperationAuthorizationRequirement Update =
-          new OperationAuthorizationRequirement { Name = OperationConstants.UpdateOperationName };
-        public static OperationAuthorizationRequirement Delete =
-          new OperationAuthorizationRequirement { Name = OperationConstants.DeleteOperationName };
-
-    }
-
-    public static class CursoOperations
-    {
-        public static OperationAuthorizationRequirement Create =
-          new OperationAuthorizationRequirement { Name = OperationConstants.CreateOperationName };
-        public static OperationAuthorizationRequirement Read =
-          new OperationAuthorizationRequirement { Name = OperationConstants.ReadOperationName };
-        public static OperationAuthorizationRequirement Update =
-          new OperationAuthorizationRequirement { Name = OperationConstants.UpdateOperationName };
-        public static OperationAuthorizationRequirement Delete =
-          new OperationAuthorizationRequirement { Name = OperationConstants.DeleteOperationName };
-
-    }
-
-    public static class PensumCursoOperations
-    {
-        public static OperationAuthorizationRequirement Create =
-          new OperationAuthorizationRequirement { Name = OperationConstants.CreateOperationName };
-        public static OperationAuthorizationRequirement Read =
-          new OperationAuthorizationRequirement { Name = OperationConstants.ReadOperationName };
-        public static OperationAuthorizationRequirement Update =
-          new OperationAuthorizationRequirement { Name = OperationConstants.UpdateOperationName };
-        public static OperationAuthorizationRequirement Delete =
-          new OperationAuthorizationRequirement { Name = OperationConstants.DeleteOperationName };
-
-    }
-
-    public static class NotaOperations
-    {
-        public static OperationAuthorizationRequirement Create =
-          new OperationAuthorizationRequirement { Name = OperationConstants.CreateOperationName };
-        public static OperationAuthorizationRequirement Read =
-          new OperationAuthorizationRequirement { Name = OperationConstants.ReadOperationName };
-        public static OperationAuthorizationRequirement Update =
-          new OperationAuthorizationRequirement { Name = OperationConstants.UpdateOperationName };
-        public static OperationAuthorizationRequirement Delete =
-          new OperationAuthorizationRequirement { Name = OperationConstants.DeleteOperationName };
-
-    }
-
-    public static class EstudianteOperations
-    {
-        public static OperationAuthorizationRequirement Create =
-          new OperationAuthorizationRequirement { Name = OperationConstants.CreateOperationName };
-        public static OperationAuthorizationRequirement Read =
-          new OperationAuthorizationRequirement { Name = OperationConstants.ReadOperationName };
-        public static OperationAuthorizationRequirement Update =
-          new OperationAuthorizationRequirement { Name = OperationConstants.UpdateOperationName };
-        public static OperationAuthorizationRequirement Delete =
-          new OperationAuthorizationRequirement { Name = OperationConstants.DeleteOperationName };
-
+        public static OperationAuthorizationRequirement CrudCarrera =
+          new OperationAuthorizationRequirement { Name = Constants.CrudCarreraOperationName };
+        public static OperationAuthorizationRequirement CrudPensum =
+          new OperationAuthorizationRequirement { Name = Constants.CrudPensumOperationName };
+        public static OperationAuthorizationRequirement CrudCurso =
+          new OperationAuthorizationRequirement { Name = Constants.CrudCursoOperationName };
+        public static OperationAuthorizationRequirement CrudPensumCurso =
+          new OperationAuthorizationRequirement { Name = Constants.CrudPensumCursoOperationName };
+        public static OperationAuthorizationRequirement CrudEstudiante =
+          new OperationAuthorizationRequirement { Name = Constants.CrudEstudianteOperationName };
+        public static OperationAuthorizationRequirement CrudNota =
+          new OperationAuthorizationRequirement { Name = Constants.CrudNotaOperationName };
+    
     }
 
     /// <summary>
     /// Nombres de las operaciones que se pueden hacer en una tabla
     /// </summary>
-    public class OperationConstants
+    public class Constants
     {
-        public static readonly string CreateOperationName = "Create";
-        public static readonly string ReadOperationName = "Read";
-        public static readonly string UpdateOperationName = "Update";
-        public static readonly string DeleteOperationName = "Delete";
+        public static readonly string CrudCarreraOperationName = "CrudCarrera";
+        public static readonly string CrudPensumOperationName = "CrudPensum";
+        public static readonly string CrudCursoOperationName = "CrudCurso";
+        public static readonly string CrudPensumCursoOperationName = "CrudPensumCurso";
+        public static readonly string CrudEstudianteOperationName = "CrudEstudiante";
+        public static readonly string CrudNotaOperationName = "CrudNota";
 
     }
 
