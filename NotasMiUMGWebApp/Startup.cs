@@ -8,6 +8,8 @@ using NotasMiUMGWebApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NotasMiUmg.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NotasMiUMGWebApp
 {
@@ -51,6 +53,11 @@ namespace NotasMiUMGWebApp
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, EstudianteAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, NotaAuthorizationHandler>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
