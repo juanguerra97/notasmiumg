@@ -11,6 +11,9 @@ using Microsoft.Extensions.Hosting;
 using NotasMiUmg.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace NotasMiUMGWebApp
 {
@@ -37,8 +40,26 @@ namespace NotasMiUMGWebApp
             services.AddIdentityServer()
                 .AddApiAuthorization<IdentityUser, ApplicationDbContext>();
 
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddIdentityServerJwt()
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = "https://localhost:44321",
+                    ValidIssuer = "https://localhost:44321",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("voldemornotienenariz"))
+                };
+            });
             services.AddControllersWithViews(config =>
             {
                 // using Microsoft.AspNetCore.Mvc.Authorization;
