@@ -11,7 +11,6 @@ namespace NotasMiUMGWebApp.Controllers
 {
 
     [Route("api/carreras")]
-    [AllowAnonymous]
     public class CarrerasController : Controller
     {
 
@@ -22,6 +21,7 @@ namespace NotasMiUMGWebApp.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("")]
         public async Task<IActionResult> GetAll()
@@ -34,6 +34,7 @@ namespace NotasMiUMGWebApp.Controllers
             }); ;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("{codigo}")]
         public async Task<IActionResult> Get([FromRoute] uint codigo)
@@ -61,6 +62,7 @@ namespace NotasMiUMGWebApp.Controllers
             
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> Create([FromBody] Carrera model)
