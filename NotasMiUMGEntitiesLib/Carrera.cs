@@ -18,12 +18,8 @@ namespace jguerra.notasmiumg
             get => _nombreCarrera; 
             set
             {
-                value = value?.Trim(); // si la cadena no es null, se eliminan los caracteres de espacio al inicio y al final
-                if(string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("El nombre no puede estar vacío");
-                }
-                _nombreCarrera = value.ToUpper();
+                value = value?.Trim(); // si la cadena no es null, se eliminan los caracteres de espacio al inicio y al final     
+                _nombreCarrera = value?.ToUpper();
             }
         }
 
