@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NotasMiUMGWebApp.Data;
+using System.Text.RegularExpressions;
 
 namespace NotasMiUMGWebApp.Controllers
 {
@@ -15,6 +16,8 @@ namespace NotasMiUMGWebApp.Controllers
     [Route("api/carreras")]
     public class CarrerasController : Controller
     {
+
+        private readonly Regex FK_ERROR_REGEX = new Regex(@"^Cannot delete or update a parent row: a foreign key constraint fails.*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
@@ -118,6 +121,59 @@ namespace NotasMiUMGWebApp.Controllers
             }
             
         }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("{CodigoCarrera}")]
+        public async Task<IActionResult> Eliminar([FromRoute] uint codigoCarrera)
+        {
+            if (!(await esAdmin()))
+            {
+                return Forbid();
+            }
+
+            try
+            {
+                var carrera = await _context.Carreras.FirstOrDefaultAsync(c => c.CodigoCarrera == codigoCarrera);
+                if(carrera == null)
+                {
+                    return BadRequest(new { 
+                        status = 400,
+                        message = "No se pudo eliminar la carrera",
+                        error = "La carrera no existe"
+                    });
+                }
+                _context.Carreras.Remove(carrera);
+                await _context.SaveChangesAsync();
+                return Ok(new { 
+                    status = 200,
+                    message = "Carrera eliminada"
+                });
+            } catch(DbUpdateException ex)
+            {
+                string error = ex.InnerException.Message;
+                if (FK_ERROR_REGEX.IsMatch(error))
+                {
+                    error = "Otros registros referencian a esta carrera";
+                }
+                return BadRequest(new { 
+                    status = 400,
+                    message = "No se pudo eliminar la carrera",
+                    error
+                });
+            }
+        }
+
+        /// <summary>
+        /// Metodo que devuelve true si el usuario que esta haciendo la peticion es administrador
+        /// </summary>
+        /// <returns>true si es admin, false si no</returns>
+        private async Task<bool> esAdmin()
+        {
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            return await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ADMIN");
+        }
+
 
     }
 }
