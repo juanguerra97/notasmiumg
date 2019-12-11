@@ -144,6 +144,11 @@ namespace NotasMiUMGWebApp.Controllers
         public async Task<IActionResult> Eliminar([FromRoute] uint codigoCarrera)
         {
 
+            if (!(await esAdmin()))
+            {
+                return Forbid();
+            }
+
             try
             {
                 var carrera = await _context.Carreras.FirstOrDefaultAsync(c => c.CodigoCarrera == codigoCarrera);
