@@ -15,4 +15,9 @@ export class NavMenuComponent {
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
+
+  public isAuthenticated(): boolean {
+    return false;
+  }
+
 }
