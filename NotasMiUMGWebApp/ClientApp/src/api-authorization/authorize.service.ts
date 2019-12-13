@@ -33,9 +33,9 @@ export interface IUser {
   name: string;
 }
 
-@Injectable({
+/*@Injectable({
   providedIn: 'root'
-})
+})*/
 export class AuthorizeService {
   // By default pop ups are disabled because they don't work properly on Edge.
   // If you want to enable pop up authentication simply set this flag to false.
