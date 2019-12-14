@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using NotasMiUMGWebApp.Models.Identity;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NotasMiUMGWebApp.Controllers
 {
     [Route("api/[controller]")]
+    [AllowAnonymous]
     public class AuthenticateController : Controller
     {
 
