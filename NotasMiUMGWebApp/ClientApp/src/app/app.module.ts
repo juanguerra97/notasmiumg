@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -21,14 +21,15 @@ import { NotLogedInGuard } from './not-loged-in.guard';
     RegistroComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'login', component: LoginComponent, canActivate: [NotLogedInGuard] },
-      { path: 'registro', component: RegistroComponent, canActivate: [NotLogedInGuard] },
-    ])
+      {path: '', component: HomeComponent, pathMatch: 'full'},
+      {path: 'login', component: LoginComponent, canActivate: [NotLogedInGuard]},
+      {path: 'registro', component: RegistroComponent, canActivate: [NotLogedInGuard]},
+    ]),
+    ReactiveFormsModule
   ],
   providers: [
     /*{ provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }*/
