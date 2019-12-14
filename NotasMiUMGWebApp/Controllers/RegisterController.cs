@@ -18,18 +18,21 @@ namespace NotasMiUMGWebApp.Controllers
 
         private readonly UserManager<IdentityUser> _userManager;
 
-        public RegisterController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public RegisterController(ApplicationDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [HttpPost]
         [Route("signup")]
         public async Task<IActionResult> SignUp([FromBody] RegisterModel model)
         {
-
-            var user = await _userManager.FindByNameAsync(model.Username);
+          
+            var user = await _userManager.FindByNameAsync(model.username);
             if(user != null)
             {
                 return BadRequest(new
@@ -40,7 +43,7 @@ namespace NotasMiUMGWebApp.Controllers
                 });
             }
 
-            var student = _context.Estudiantes.FirstOrDefault(e => e.Carne == model.Carne);
+            var student = _context.Estudiantes.FirstOrDefault(e => e.Carne == model.carne);
             if(student != null)
             {
                 return BadRequest(new
@@ -51,7 +54,7 @@ namespace NotasMiUMGWebApp.Controllers
                 });
             }
 
-            var pensum = _context.Pensums.FirstOrDefault(p => p.CodigoCarrera == model.CodigoCarrera && p.AnoPensum == model.AnoPensum);
+            var pensum = _context.Pensums.FirstOrDefault(p => p.CodigoCarrera == model.codigoCarrera && p.AnoPensum == model.anoPensum);
             if(pensum == null)
             {
                 return BadRequest(new
@@ -62,7 +65,7 @@ namespace NotasMiUMGWebApp.Controllers
                 });
             }
 
-            var identityUser = await _userManager.CreateAsync(new IdentityUser { Email = model.Username }, model.Password);
+            var identityUser = await _userManager.CreateAsync(new IdentityUser { UserName = model.username, Email = model.username }, model.password);
             if (!identityUser.Succeeded)
             {
                 return BadRequest(new
@@ -73,13 +76,32 @@ namespace NotasMiUMGWebApp.Controllers
                 });
             }
 
-            user = await _userManager.FindByNameAsync(model.Username);
-            student = new Estudiante(model.Carne, model.Nombre, model.Apellido, model.AnoInicio, pensum, user);
+            var studentRole = await _roleManager.FindByNameAsync("ESTUDIANTE");
+            if(studentRole == null)
+            {
+                studentRole = new IdentityRole { Name = "ESTUDIANTE" };
+                var roleResult = await _roleManager.CreateAsync(studentRole);
+                if(!roleResult.Succeeded)
+                {
+                    return BadRequest(new
+                    {
+                        status = 400,
+                        message = "No se pudo crear el rol ESTUDIANTE",
+                        error = string.Join(", ", roleResult.Errors)
+                    });
+                }
+            }            
+
+            user = await _userManager.FindByNameAsync(model.username);
+
+            await _userManager.AddToRoleAsync(user, "ESTUDIANTE");
+
+            student = new Estudiante(model.carne, model.nombre, model.apellido, model.anoInicio, pensum, user);
 
             await _context.Estudiantes.AddAsync(student);
             await _context.SaveChangesAsync();
 
-            student = _context.Estudiantes.FirstOrDefault(e => e.Carne == model.Carne);
+            student = _context.Estudiantes.FirstOrDefault(e => e.Carne == model.carne);
 
 
             return Ok(new
