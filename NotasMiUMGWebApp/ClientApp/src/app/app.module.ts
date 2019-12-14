@@ -8,15 +8,17 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { RegistroComponent } from './registro/registro.component';
 
-import {NotLogedInGuard} from './not-loged-in.guard';
+import { NotLogedInGuard } from './not-loged-in.guard';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -24,7 +26,8 @@ import {NotLogedInGuard} from './not-loged-in.guard';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'login', component: LoginComponent, canActivate: [NotLogedInGuard] }
+      { path: 'login', component: LoginComponent, canActivate: [NotLogedInGuard] },
+      { path: 'registro', component: RegistroComponent, canActivate: [NotLogedInGuard] },
     ])
   ],
   providers: [
