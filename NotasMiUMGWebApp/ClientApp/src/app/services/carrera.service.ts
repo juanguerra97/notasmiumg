@@ -9,7 +9,7 @@ import ServerResponse from '../model/ServerResponse';
 })
 export class CarreraService {
 
-  private static CARRERA_API_URL = `${environment.apiBaseUrl}/carreras`;
+  private static CARRERA_API_URL = `${environment.apiBaseUrl}/api/carreras`;
 
   constructor(private http: HttpClient) { }
 
