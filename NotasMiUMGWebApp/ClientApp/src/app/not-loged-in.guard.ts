@@ -40,7 +40,7 @@ export class NotLogedInGuard implements CanActivate, CanActivateChild, CanLoad {
 
   private isAuthorized(): boolean {
     const authorized: boolean = this.auth.isAuthenticated();
-    if(!authorized) {
+    if(authorized) {
       this.router.navigateByUrl('/');
     }
     return authorized;
