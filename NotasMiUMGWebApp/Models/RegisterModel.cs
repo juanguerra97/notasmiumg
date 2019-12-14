@@ -6,28 +6,28 @@ namespace NotasMiUMGWebApp.Models
     {
 
         [Required(ErrorMessage = "Falta nombre de usuario")]
-        public string Username { get; set; }
+        public string username { get; set; }
 
         [Required(ErrorMessage = "Falta contraseña")]
-        public string Password { get; set; }
+        public string password { get; set; }
 
         [Required(ErrorMessage = "Falta el carné")]
-        public string Carne { get; set; }
+        public string carne { get; set; }
 
         [Required(ErrorMessage = "Falta el nombre")]
-        public string Nombre { get; set; }
+        public string nombre { get; set; }
 
         [Required(ErrorMessage = "Falta el apellido")]
-        public string Apellido { get; set; }
+        public string apellido { get; set; }
 
         [Required(ErrorMessage = "Falta el año de inicio")]
-        public uint AnoInicio { get; set; }
+        public uint anoInicio { get; set; }
 
         [Required(ErrorMessage = "Falta el código de la carrera")]
-        public uint CodigoCarrera { get; set; }
+        public uint codigoCarrera { get; set; }
 
         [Required(ErrorMessage = "Falta el año del pensum")]
-        public uint AnoPensum { get; set; }
+        public uint anoPensum { get; set; }
 
     }
 }
