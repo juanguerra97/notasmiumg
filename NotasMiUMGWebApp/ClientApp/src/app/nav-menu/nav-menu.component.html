@@ -50,11 +50,11 @@
         </ul>
 
         <ul class="navbar-nav" *ngIf="!isAuthenticated()">
-          <li class="nav-item">
-            <a class="nav-link text-dark">Registrar</a>
+          <li [routerLinkActive]="['link-active']" class="nav-item">
+            <a [routerLink]="['/registro']" class="nav-link text-dark">Registrar</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark">Iniciar sesi&oacute;n</a>
+          <li [routerLinkActive]="['link-active']" class="nav-item">
+            <a [routerLink]="['/login']" class="nav-link text-dark">Iniciar sesi&oacute;n</a>
           </li>
         </ul>
 
