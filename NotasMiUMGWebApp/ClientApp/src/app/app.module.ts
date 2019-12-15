@@ -8,9 +8,11 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import {LogoutComponent} from './logout/logout.component';
 import { RegistroComponent } from './registro/registro.component';
 
 import { NotLogedInGuard } from './not-loged-in.guard';
+import { LogedInGuard } from './loged-in.guard';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { NotLogedInGuard } from './not-loged-in.guard';
     NavMenuComponent,
     HomeComponent,
     LoginComponent,
-    RegistroComponent
+    LogoutComponent,
+    RegistroComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -27,6 +30,7 @@ import { NotLogedInGuard } from './not-loged-in.guard';
     RouterModule.forRoot([
       {path: '', component: HomeComponent, pathMatch: 'full'},
       {path: 'login', component: LoginComponent, canActivate: [NotLogedInGuard]},
+      {path: 'logout', component: LogoutComponent, canActivate: [LogedInGuard]},
       {path: 'registro', component: RegistroComponent, canActivate: [NotLogedInGuard]},
     ]),
     ReactiveFormsModule
