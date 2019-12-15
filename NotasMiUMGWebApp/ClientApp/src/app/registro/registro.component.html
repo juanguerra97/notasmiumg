@@ -1,24 +1,23 @@
 <div class="container pt-2 pt-md-4">
-
   <form (ngSubmit)="registrar()" [formGroup]="formRegistro">
 
     <div class="row">
-      <div class="col form-group">
+      <div class="col-12 col-sm-6 form-group">
         <label for="nombre">Nombre</label>
         <input formControlName="nombre" type="text" id="nombre" class="form-control">
       </div>
-      <div class="col form-group">
+      <div class="col-12 col-sm-6 form-group">
         <label for="apellido">Apellido</label>
         <input formControlName="apellido" type="text" id="apellido" class="form-control">
       </div>
     </div>
 
     <div class="row">
-      <div class="col form-group">
+      <div class="col-12 col-sm-6 form-group">
         <label for="carne">Carn&eacute;</label>
         <input formControlName="carne" type="text" id="carne" class="form-control" placeholder="ej. 1490-15-3412">
       </div>
-      <div class="col">
+      <div class="col-12 col-sm-6">
         <label for="username">Correo</label>
         <input formControlName="username" type="text" id="username" class="form-control"
                placeholder="ej. estudiante@miumg.edu.gt">
@@ -26,30 +25,30 @@
     </div>
 
     <div class="row">
-      <div class="col form-group">
+      <div class="col-12 col-sm-6 form-group">
         <label for="password">Contrase&ntilde;a</label>
         <input formControlName="password" type="password" id="password" class="form-control">
       </div>
-      <div class="col form-group">
+      <div class="col-12 col-sm-6 form-group">
         <label for="password_rep">Repetir contrase&ntilde;a</label>
         <input formControlName="password_rep" type="password" id="password_rep" class="form-control">
       </div>
     </div>
 
     <div class="row">
-      <div class="col form-group">
+      <div class="col-12 col-sm-12 col-md-5 col-sm form-group">
         <label for="codigoCarrera">Carrera</label>
         <select (change)="cargarPensums()" formControlName="codigoCarrera" id="codigoCarrera" class="custom-select">
           <option *ngFor="let c of carreras" [value]="c.codigoCarrera">{{ c.nombreCarrera }}</option>
         </select>
       </div>
-      <div class="col form-group">
+      <div class="col-12 col-sm-6 col-md-4 form-group">
         <label for="anoPensum">Pensum</label>
         <select formControlName="anoPensum" id="anoPensum" class="custom-select">
           <option *ngFor="let p of pensums" [value]="p">{{ p }}</option>
         </select>
       </div>
-      <div class="col form-group">
+      <div class="col-12 col-sm-6 col-md-3 form-group">
         <label for="anoInicio">Inicio</label>
         <input formControlName="anoInicio" type="number" min="1950" step="1" max="3000" id="anoInicio"
                class="form-control" placeholder="ej. 2016">
