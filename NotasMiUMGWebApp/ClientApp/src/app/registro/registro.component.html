@@ -18,9 +18,10 @@
         <input formControlName="carne" type="text" id="carne" class="form-control" placeholder="ej. 1490-15-3412">
       </div>
       <div class="col-12 col-sm-6">
-        <label for="username">Correo</label>
-        <input formControlName="username" type="text" id="username" class="form-control"
+        <label for="correo">Correo</label>
+        <input formControlName="correo" type="text" id="correo" class="form-control"
                placeholder="ej. estudiante@miumg.edu.gt">
+        <small *ngIf="correoValido()" class="form-text text-muted">Tu usuario es <span class="font-weight-bold">{{ this.username }}</span></small>
       </div>
     </div>
 

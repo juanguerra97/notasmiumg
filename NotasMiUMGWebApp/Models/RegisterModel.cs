@@ -5,8 +5,8 @@ namespace NotasMiUMGWebApp.Models
     public class RegisterModel
     {
 
-        [Required(ErrorMessage = "Falta nombre de usuario")]
-        public string username { get; set; }
+        [Required(ErrorMessage = "Falta el correo")]
+        public string correo { get; set; }
 
         [Required(ErrorMessage = "Falta contraseña")]
         public string password { get; set; }

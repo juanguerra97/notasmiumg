@@ -18,11 +18,13 @@ export class RegistroComponent implements OnInit {
   public carreras: Carrera[] = [];
   public pensums: number[] = [];
 
+  public username = '';
+
   public formRegistro = new FormGroup({
-    username: new FormControl('', [
+    correo: new FormControl('', [
       Validators.required,
       Validators.minLength(14),
-      Validators.email
+      Validators.pattern(`^([a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ_+-]+)@miumg.edu.gt$`)
     ]),
     password: new FormControl('', [
       Validators.required,
@@ -62,6 +64,7 @@ export class RegistroComponent implements OnInit {
 
   ngOnInit() {
     this.cargarCarreras();
+
   }
 
   public registrar(): void {
@@ -96,5 +99,17 @@ export class RegistroComponent implements OnInit {
       }, console.error);
   }
 
+  public correoValido(): boolean {
+    const campoCorreo = this.formRegistro.get('correo');
+    const valido: boolean = campoCorreo.valid;
+    if(valido) {
+      const CORREO_REGEX: RegExp = /^([a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ_+-]+)@miumg.edu.gt$/ig;
+      const result = CORREO_REGEX.exec(campoCorreo.value);
+      if(result) {
+        this.username = result[1];
+      }
+    }
+    return valido;
+  }
 
 }

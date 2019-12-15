@@ -4,6 +4,7 @@ using jguerra.notasmiumg;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 using NotasMiUMGWebApp.Data;
 using NotasMiUMGWebApp.Models;
 
@@ -13,6 +14,8 @@ namespace NotasMiUMGWebApp.Controllers
     [AllowAnonymous]
     public class RegisterController : Controller
     {
+
+        private static readonly Regex REGEX_CORREO_UMG = new Regex(@"^([a-zA-Z0-9ñÑ_+-]+)@miumg.edu.gt$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private readonly ApplicationDbContext _context;
 
@@ -31,8 +34,21 @@ namespace NotasMiUMGWebApp.Controllers
         [Route("signup")]
         public async Task<IActionResult> SignUp([FromBody] RegisterModel model)
         {
-          
-            var user = await _userManager.FindByNameAsync(model.username);
+
+            var matchCorreo = REGEX_CORREO_UMG.Match(model.correo);
+            if (!matchCorreo.Success)
+            {
+                return BadRequest(new
+                {
+                    status = 400,
+                    message = "No se puedo guardar el usuario",
+                    error = "Correo inválido"
+                });
+            }
+
+            var username = matchCorreo.Groups[1].Value;
+
+            var user = await _userManager.FindByNameAsync(username);
             if(user != null)
             {
                 return BadRequest(new
@@ -65,7 +81,7 @@ namespace NotasMiUMGWebApp.Controllers
                 });
             }
 
-            var identityUser = await _userManager.CreateAsync(new IdentityUser { UserName = model.username, Email = model.username }, model.password);
+            var identityUser = await _userManager.CreateAsync(new IdentityUser { UserName = username, Email = model.correo }, model.password);
             if (!identityUser.Succeeded)
             {
                 return BadRequest(new
@@ -92,7 +108,7 @@ namespace NotasMiUMGWebApp.Controllers
                 }
             }            
 
-            user = await _userManager.FindByNameAsync(model.username);
+            user = await _userManager.FindByNameAsync(username);
 
             await _userManager.AddToRoleAsync(user, "ESTUDIANTE");
 
