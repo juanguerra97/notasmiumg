@@ -27,26 +27,9 @@
           <li class="nav-item">
             <a class="nav-link text-dark">Estad&iacute;sticas</a>
           </li>
-          <li class="nav-item">
-            <a  class="nav-link text-dark" title="Salir">Salir</a>
+          <li [routerLinkActive]="['link-active']" class="nav-item">
+            <a [routerLink]="['/logout']" class="nav-link text-dark" title="Salir">Salir</a>
           </li>
-          <!--<li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
-          </li>-->
-          <!--<li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']"
-              >Counter</a
-            >
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
-              >Fetch data</a
-            >
-          </li>-->
         </ul>
 
         <ul class="navbar-nav" *ngIf="!isAuthenticated()">
