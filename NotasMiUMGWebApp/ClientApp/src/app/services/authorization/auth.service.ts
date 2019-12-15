@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 
 interface IUser {
   username: string;
+  roles: string;
   token: string;
 }
 
@@ -48,7 +49,7 @@ export class AuthService {
             if(result) {
               username = result[1];
             }
-            this.usuario = {username, token: res.token};
+            this.usuario = {username, roles: `${res.roles}`, token: res.token};
             this.saveUserToStorage();
             resolve(this.usuario);
           }, (err) => {

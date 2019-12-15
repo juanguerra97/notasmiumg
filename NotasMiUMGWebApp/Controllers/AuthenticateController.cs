@@ -57,9 +57,12 @@ namespace NotasMiUMGWebApp.Controllers
                     claims: authClaims,
                     signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
+
+                var roles = await _userManager.GetRolesAsync(user);
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
+                    roles = roles,
                     expiration = token.ValidTo
                 });
             }
