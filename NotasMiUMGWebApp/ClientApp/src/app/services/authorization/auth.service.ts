@@ -43,6 +43,11 @@ export class AuthService {
       if (!this.isAuthenticated()) {
         this.http.post(AuthService.API_LOGIN_URL, {username, password})
           .subscribe((res: any) => {
+            const CORREO_REGEX: RegExp = /^([a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ_+-]+)(@miumg.edu.gt)?$/ig;
+            const result = CORREO_REGEX.exec(username);
+            if(result) {
+              username = result[1];
+            }
             this.usuario = {username, token: res.token};
             this.saveUserToStorage();
             resolve(this.usuario);

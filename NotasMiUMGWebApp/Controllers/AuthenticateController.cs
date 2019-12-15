@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using NotasMiUMGWebApp.Models.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.RegularExpressions;
 
 namespace NotasMiUMGWebApp.Controllers
 {
@@ -15,6 +16,8 @@ namespace NotasMiUMGWebApp.Controllers
     [AllowAnonymous]
     public class AuthenticateController : Controller
     {
+
+        private static readonly Regex REGEX_CORREO_UMG = new Regex(@"^([a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ_+-]+)(@miumg.edu.gt)?$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private UserManager<IdentityUser> _userManager;
 
@@ -27,8 +30,16 @@ namespace NotasMiUMGWebApp.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
+
+            var usuarioCorreoMatch = REGEX_CORREO_UMG.Match(model.Username);
+            if(!usuarioCorreoMatch.Success)
+            {
+                return Unauthorized(new { message = "No se pudo iniciar sesión", error = "Credenciales inválidas" });
+            }
+
+            string username = usuarioCorreoMatch.Groups[1].Value;
             
-            var user = await _userManager.FindByNameAsync(model.Username);
+            var user = await _userManager.FindByNameAsync(username);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var authClaims = new[]
@@ -52,7 +63,7 @@ namespace NotasMiUMGWebApp.Controllers
                     expiration = token.ValidTo
                 });
             }
-            return Unauthorized(new { message = "Credenciales inválidas" });
+            return Unauthorized(new { message = "No se pudo iniciar sesión", error = "Credenciales inválidas" });
         }
 
     }
