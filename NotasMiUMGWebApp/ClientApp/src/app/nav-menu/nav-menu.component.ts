@@ -23,4 +23,10 @@ export class NavMenuComponent {
     return this.auth.isAuthenticated();
   }
 
+  public getUsername(): string {
+    const user = this.auth.getUser();
+    if(user != null) return user.username;
+    return '';
+  }
+
 }
