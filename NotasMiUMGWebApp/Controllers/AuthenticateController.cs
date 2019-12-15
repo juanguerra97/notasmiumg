@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace NotasMiUMGWebApp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [AllowAnonymous]
     public class AuthenticateController : Controller
     {

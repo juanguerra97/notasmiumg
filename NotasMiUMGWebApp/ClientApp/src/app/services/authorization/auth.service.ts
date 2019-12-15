@@ -14,7 +14,7 @@ interface IUser {
 })
 export class AuthService {
 
-  private static API_LOGIN_URL = `${environment.apiBaseUrl}/api/login`;
+  private static API_LOGIN_URL = `${environment.apiBaseUrl}/api/user/login`;
 
   private jwtHelper: JwtHelperService = new JwtHelperService();
   private usuario: IUser = null;
