@@ -1,5 +1,5 @@
 <div class="container pt-2 pt-md-4">
-  <form (ngSubmit)="registrar()" [formGroup]="formRegistro">
+  <form (ngSubmit)="registrar()" [formGroup]="formRegistro" id="formRegistro">
 
     <div class="row">
       <div class="col-12 col-sm-6 form-group">
@@ -58,7 +58,11 @@
 
     <div class="row">
       <div class="col">
-        <input [disabled]="!formRegistro.valid" type="submit" value="Guardar" class="btn btn-primary float-right">
+        <button [disabled]="!formRegistro.valid" type="submit" form="formRegistro" class="btn btn-primary float-right">
+          Guardar&nbsp;
+          <span *ngIf="procesandoRegistro" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <!--<input [disabled]="!formRegistro.valid" type="submit" value="Guardar" class="btn btn-primary float-right">-->
       </div>
     </div>
 

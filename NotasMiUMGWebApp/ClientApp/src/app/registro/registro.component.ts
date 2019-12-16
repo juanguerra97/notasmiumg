@@ -20,6 +20,8 @@ export class RegistroComponent implements OnInit {
 
   public username = '';
 
+  public procesandoRegistro = false;
+
   public formRegistro = new FormGroup({
     correo: new FormControl('', [
       Validators.required,
@@ -73,12 +75,18 @@ export class RegistroComponent implements OnInit {
     datos.anoPensum = datos.anoPensum * 1;
     console.log(datos);
     if(datos.password != datos.password_rep) return;
+
+    this.procesandoRegistro = true;
     this.http.post<ServerResponse>(`${environment.apiBaseUrl}/api/estudiante/signup`, datos)
       .subscribe((res: ServerResponse) => {
+        this.procesandoRegistro = false;
         if(res.status == 200) {
           this.router.navigateByUrl('/login');
         }
-      }, console.error);
+      }, (error: any) => {
+        console.error(error);
+        this.procesandoRegistro = false;
+      });
   }
 
   public cargarCarreras(): void {

@@ -10,6 +10,8 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  public procesandoLogin = false;
+
   public loginForm = new FormGroup({
     username: new FormControl('', [
       Validators.required,
@@ -32,13 +34,18 @@ export class LoginComponent implements OnInit {
   }
 
   public iniciarSesion(): void {
+    this.procesandoLogin = true;
     const { username, password } = this.loginForm.value;
     this.auth.iniciarSesion(username, password)
       .then((res: any) => {
+        this.procesandoLogin = false;
         console.log(`¡Bienvenido ${res.username}!`);
         this.router.navigateByUrl('/');
       })
-      .catch(console.error);
+      .catch((error: any)=>{
+        console.error(error);
+        this.procesandoLogin = false;
+      });
   }
 
 }

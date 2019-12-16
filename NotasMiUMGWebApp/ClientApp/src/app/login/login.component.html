@@ -3,7 +3,7 @@
 
   <div class="row">
     <div class="col-12 col-md-5">
-      <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()">
+      <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()" id="loginForm">
         <div class="form-group">
           <label for="username">Usuario</label>
           <input formControlName="username" type="text" id="username" class="form-control" placeholder="Nombre de usuario">
@@ -12,7 +12,12 @@
           <label for="password">Contrase&ntilde;a</label>
           <input formControlName="password" type="password" id="password" class="form-control" placeholder="Contrase&ntilde;a">
         </div>
-        <input [disabled]="!loginForm.valid" type="submit" value="Entrar" class="btn btn-primary">
+
+        <button [disabled]="!loginForm.valid" type="submit" form="loginForm" class="btn btn-primary">
+          <span *ngIf="procesandoLogin" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Entrar
+        </button>
+        <!--<input [disabled]="!loginForm.valid" type="submit" value="Entrar" class="btn btn-primary">-->
       </form>
     </div>
     <div class="col col-md-7">
