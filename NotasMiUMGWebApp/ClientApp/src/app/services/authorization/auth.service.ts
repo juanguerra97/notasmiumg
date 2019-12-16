@@ -38,6 +38,13 @@ export class AuthService {
     return this.getUser() != null;
   }
 
+  // devuelve true si el usuario autenticado es administrador
+  public isAdmin(): boolean {
+    const user = this.getUser();
+    if(user == null) return false;
+    return user.roles.includes('ADMIN');
+  }
+
   // autentica a un usuario con usuario y contraseña
   public iniciarSesion(username: string, password: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
