@@ -13,49 +13,11 @@ namespace jguerra.notasmiumg
 
         public uint EstudianteId { get; set; }
 
-        private string _carne;
-        public string Carne {
-            get => _carne;  
-            set
-            {
-                if(string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("El carne no puede estar vacio");
-                }
-                if(!REGEX_CARNE.IsMatch(value))
-                {
-                    throw new ArgumentException("El formato del carne es invalido");
-                }
-                _carne = value;
-            }
-        }
+        public string Carne { get; set; }
 
-        private string _nombre;
-        public string Nombre {
-            get => _nombre;
-            set
-            {
-                value = value?.Trim();
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("El nombre no puede estar vacio");
-                }
-                _nombre = value;
-            }
-        }
+        public string Nombre { get; set; }
 
-        private string _apellido;
-        public string Apellido {
-            get => _apellido; 
-            set {
-                value = value?.Trim();
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("El apellido no puede estar vacio");
-                }
-                _apellido = value;
-            }
-        }
+        public string Apellido { get; set; }
 
         public uint AnoInicio { get; set; }
 

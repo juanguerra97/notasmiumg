@@ -14,19 +14,7 @@ namespace jguerra.notasmiumg
 
         public uint CodigoCurso { get; set; }
 
-        private string _nombreCurso;
-        public string NombreCurso { 
-            get => _nombreCurso; 
-            set
-            {
-                value = value?.Trim(); // si la cadena no es null, se eliminan los caracteres de espacio al inicio y al final
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("El nombre no puede estar vacío");
-                }
-                _nombreCurso = value.ToUpper();
-            } 
-        }
+        public string NombreCurso { get; set; }
 
         public uint CodigoCarrera { get; set; }
 

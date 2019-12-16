@@ -13,15 +13,7 @@ namespace jguerra.notasmiumg
 
         public uint CodigoCarrera { get; set; }
 
-        private string _nombreCarrera;
-        public string NombreCarrera {
-            get => _nombreCarrera; 
-            set
-            {
-                value = value?.Trim(); // si la cadena no es null, se eliminan los caracteres de espacio al inicio y al final     
-                _nombreCarrera = value?.ToUpper();
-            }
-        }
+        public string NombreCarrera { get; set; }
 
         public List<Curso> Cursos { get; set; }
 
