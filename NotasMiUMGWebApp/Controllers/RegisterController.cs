@@ -16,6 +16,7 @@ namespace NotasMiUMGWebApp.Controllers
     {
 
         private static readonly Regex REGEX_CORREO_UMG = new Regex(@"^([a-zA-Z0-9ñÑ_+-]+)@miumg.edu.gt$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private readonly Regex REGEX_CARNE = new Regex(@"^\d{4}-\d{2}-\d{1,8}$", RegexOptions.Compiled);
 
         private readonly ApplicationDbContext _context;
 
@@ -43,6 +44,16 @@ namespace NotasMiUMGWebApp.Controllers
                     status = 400,
                     message = "No se puedo guardar el usuario",
                     error = "Correo inválido"
+                });
+            }
+
+            if(!REGEX_CARNE.IsMatch(model.carne))
+            {
+                return BadRequest(new
+                {
+                    status = 400,
+                    message = "No se puedo guardar el estudiante",
+                    error = "Carné inválido"
                 });
             }
 
@@ -112,7 +123,7 @@ namespace NotasMiUMGWebApp.Controllers
 
             await _userManager.AddToRoleAsync(user, "ESTUDIANTE");
 
-            student = new Estudiante(model.carne, model.nombre, model.apellido, model.anoInicio, pensum, user);
+            student = new Estudiante(model.carne, model.nombre?.Trim()?.ToUpper(), model.apellido?.Trim()?.ToUpper(), model.anoInicio, pensum, user);
 
             await _context.Estudiantes.AddAsync(student);
             await _context.SaveChangesAsync();
