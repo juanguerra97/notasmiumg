@@ -9,7 +9,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let c of carreras">
+    <tr *ngFor="let c of carreras" (click)="seleccionarCarrera(c)" [ngClass]="{'bg-dark text-white': c == carreraSel}">
       <td>
         {{ c.codigoCarrera }}
       </td>

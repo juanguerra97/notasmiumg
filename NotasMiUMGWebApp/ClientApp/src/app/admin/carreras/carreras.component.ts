@@ -11,6 +11,7 @@ import ServerResponse from '../../model/ServerResponse';
 export class CarrerasComponent implements OnInit {
 
   public carreras: Carrera[] = [];
+  public carreraSel: Carrera = null;
 
   constructor(private carreraService: CarreraService) { }
 
@@ -21,6 +22,14 @@ export class CarrerasComponent implements OnInit {
           this.carreras = res.data;
         }
       }, console.error);
+  }
+
+  public seleccionarCarrera(carrera: Carrera): void {
+    if(this.carreraSel == carrera){
+      this.carreraSel = null;
+    } else {
+      this.carreraSel = carrera;
+    }
   }
 
 }
