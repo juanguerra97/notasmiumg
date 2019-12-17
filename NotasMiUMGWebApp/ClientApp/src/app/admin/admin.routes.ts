@@ -2,6 +2,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { CursosComponent } from './cursos/cursos.component';
+import { PensumsComponent } from './pensums/pensums.component';
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -16,6 +17,10 @@ export const ADMIN_ROUTES: Routes = [
   {
     path: 'cursos',
     component: CursosComponent
+  },
+  {
+    path: 'pensums',
+    component: PensumsComponent
   }
 ];
 
