@@ -14,6 +14,7 @@ import { RegistroComponent } from './registro/registro.component';
 
 import { NotLogedInGuard } from './not-loged-in.guard';
 import { LogedInGuard } from './loged-in.guard';
+import { AdminGuard } from './admin.guard';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,10 @@ import { LogedInGuard } from './loged-in.guard';
       {path: 'login', component: LoginComponent, canActivate: [NotLogedInGuard]},
       {path: 'logout', component: LogoutComponent, canActivate: [LogedInGuard]},
       {path: 'registro', component: RegistroComponent, canActivate: [NotLogedInGuard]},
+      {
+        path: 'admin', canLoad: [AdminGuard], canActivateChild: [AdminGuard],
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+      },
     ]),
     ReactiveFormsModule,
     FontAwesomeModule
