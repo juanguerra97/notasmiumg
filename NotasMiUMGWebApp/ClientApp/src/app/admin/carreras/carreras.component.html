@@ -1,1 +1,22 @@
-<p>carreras works!</p>
+
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>C&oacute;digo</th>
+      <th>Nombre</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let c of carreras">
+      <td>
+        {{ c.codigoCarrera }}
+      </td>
+      <td>
+        {{ c.nombreCarrera }}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
