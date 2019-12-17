@@ -23,13 +23,13 @@
           <ng-container *ngIf="isAdmin() else menuEstudiante">
 
             <li class="nav-item">
-              <a class="nav-link text-dark">Carreras</a>
+              <a [routerLinkActive]="['link-active']" [routerLink]="['/admin/carreras']" class="nav-link text-dark">Carreras</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark">Cursos</a>
+              <a [routerLinkActive]="['link-active']" [routerLink]="['/admin/cursos']" class="nav-link text-dark">Cursos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark">Pensums</a>
+              <a [routerLinkActive]="['link-active']" [routerLink]="['/admin/pensums']" class="nav-link text-dark">Pensums</a>
             </li>
 
           </ng-container>
