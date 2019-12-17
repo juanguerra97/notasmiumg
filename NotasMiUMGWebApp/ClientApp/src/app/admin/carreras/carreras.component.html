@@ -1,5 +1,12 @@
 
 
+<h3 class="float-left">Carreras</h3>
+
+<button (click)="eliminarCarrera()" [disabled]="carreraSel == null" class="btn btn-danger btn-sm float-right">
+  <fa-icon [icon]="faTrash" ></fa-icon>&nbsp;
+  Eliminar
+</button>
+
 <div class="table-responsive">
   <table class="table table-hover">
     <thead>
@@ -9,7 +16,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let c of carreras" (click)="seleccionarCarrera(c)" [ngClass]="{'bg-dark text-white': c == carreraSel}">
+    <tr *ngFor="let c of carreras" (click)="clickCarrera(c)" [ngClass]="{'bg-dark text-white': c == carreraSel}">
       <td>
         {{ c.codigoCarrera }}
       </td>

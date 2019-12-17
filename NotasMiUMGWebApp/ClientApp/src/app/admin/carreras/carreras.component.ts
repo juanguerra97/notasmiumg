@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { CarreraService } from '../../services/carrera.service';
 import { Carrera } from '../../model/Carrera';
 import ServerResponse from '../../model/ServerResponse';
@@ -9,6 +10,8 @@ import ServerResponse from '../../model/ServerResponse';
   styleUrls: ['./carreras.component.css']
 })
 export class CarrerasComponent implements OnInit {
+
+  faTrash = faTrash;
 
   public carreras: Carrera[] = [];
   public carreraSel: Carrera = null;
@@ -24,7 +27,18 @@ export class CarrerasComponent implements OnInit {
       }, console.error);
   }
 
-  public seleccionarCarrera(carrera: Carrera): void {
+  public eliminarCarrera(): void {
+    if(this.carreraSel == null) return;
+    this.carreraService.delete(this.carreraSel.codigoCarrera)
+      .subscribe((res: ServerResponse) => {
+        if(res.status == 200) {
+          this.carreras.splice(this.carreras.findIndex(c => c.codigoCarrera === this.carreraSel.codigoCarrera), 1);
+          this.carreraSel = null;
+        }
+      }, console.error);
+  }
+
+  public clickCarrera(carrera: Carrera): void {
     if(this.carreraSel == carrera){
       this.carreraSel = null;
     } else {
