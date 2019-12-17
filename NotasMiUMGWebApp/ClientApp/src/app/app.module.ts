@@ -9,12 +9,13 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import {LogoutComponent} from './logout/logout.component';
+import { LogoutComponent } from './logout/logout.component';
 import { RegistroComponent } from './registro/registro.component';
 
 import { NotLogedInGuard } from './not-loged-in.guard';
 import { LogedInGuard } from './loged-in.guard';
 import { AdminGuard } from './admin.guard';
+import { TokenInterceptor } from './token.interceptor';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { AdminGuard } from './admin.guard';
     FontAwesomeModule
   ],
   providers: [
-    /*{ provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }*/
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
