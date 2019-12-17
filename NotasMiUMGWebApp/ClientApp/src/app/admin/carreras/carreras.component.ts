@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
 import { CarreraService } from '../../services/carrera.service';
 import { Carrera } from '../../model/Carrera';
 import ServerResponse from '../../model/ServerResponse';
@@ -12,9 +13,19 @@ import ServerResponse from '../../model/ServerResponse';
 export class CarrerasComponent implements OnInit {
 
   faTrash = faTrash;
+  faSave = faSave;
 
   public carreras: Carrera[] = [];
   public carreraSel: Carrera = null;
+
+  public formNewCarrera = new FormGroup({
+    codigoCarrera: new FormControl('', [
+      Validators.required,
+    ]),
+    nombreCarrera: new FormControl('',[
+      Validators.required
+    ])
+  });
 
   constructor(private carreraService: CarreraService) { }
 
@@ -23,6 +34,22 @@ export class CarrerasComponent implements OnInit {
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
           this.carreras = res.data;
+        }
+      }, console.error);
+  }
+
+  public crearCarrera(): void {
+
+    const newCarrera = this.formNewCarrera.value;
+    newCarrera.nombreCarrera = newCarrera.nombreCarrera.trim().toUpperCase();
+
+    if(newCarrera.nombreCarrera == '') return;
+
+    this.carreraService.create(newCarrera)
+      .subscribe((res: ServerResponse) => {
+        if(res.status == 200) {
+          this.carreras.unshift(newCarrera);
+          this.formNewCarrera.reset();
         }
       }, console.error);
   }

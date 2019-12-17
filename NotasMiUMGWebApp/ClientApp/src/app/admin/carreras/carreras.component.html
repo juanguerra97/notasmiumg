@@ -1,11 +1,25 @@
 
+<div>
+    <form [formGroup]="formNewCarrera" id="formNewCarrera" class="form-inline mt-4 mb-3">
+        <input formControlName="codigoCarrera" type="number" class="form-control mr-sm-2 mt-md-0" placeholder="C&oacute;digo">
+        <input formControlName="nombreCarrera" type="text" class="form-control mt-2 mt-sm-0 mr-sm-2" placeholder="Nombre">
+        <button (click)="crearCarrera()" [disabled]="!formNewCarrera.valid" type="submit" form="formNewCarrera" class="btn btn-primary mt-2 mt-md-0">
+          <fa-icon [icon]="faSave"></fa-icon>
+          Guardar
+        </button>
+    </form>
+</div>
 
-<h3 class="float-left">Carreras</h3>
+<hr>
 
-<button (click)="eliminarCarrera()" [disabled]="carreraSel == null" class="btn btn-danger btn-sm float-right">
-  <fa-icon [icon]="faTrash" ></fa-icon>&nbsp;
-  Eliminar
-</button>
+<div>
+  <h3 class="float-left">Carreras</h3>
+
+  <button (click)="eliminarCarrera()" [disabled]="carreraSel == null" class="btn btn-danger btn-sm float-right">
+    <fa-icon [icon]="faTrash" ></fa-icon>&nbsp;
+    Eliminar
+  </button>
+</div>
 
 <div class="table-responsive">
   <table class="table table-hover">
