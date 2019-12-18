@@ -1,1 +1,54 @@
-<p>cursos works!</p>
+
+<div class="row">
+  <div class="col-12 col-sm-2 col-md-1">
+    <label for="codigoCarrera">Carrera</label>
+  </div>
+  <div class="col-12 col-sm-10 col-md-6">
+    <select (change)="cargarCursos()" [(ngModel)]="codigoCarreraSel" id="codigoCarrera" class="custom-select">
+      <option *ngFor="let c of carreras" [value]="c.codigoCarrera">{{ c.codigoCarrera + ' ' + c.nombreCarrera }}</option>
+    </select>
+  </div>
+</div>
+
+<div>
+  <form [formGroup]="formNewCurso" id="formNewCurso" class="form-inline mt-4 mb-3">
+    <input formControlName="codigoCurso" type="number" class="form-control mr-sm-2 mt-md-0" placeholder="C&oacute;digo">
+    <input formControlName="nombreCurso" type="text" class="form-control mt-2 mt-sm-0 mr-sm-2" placeholder="Nombre">
+    <button (click)="crearCurso()" [disabled]="!formNewCurso.valid || codigoCarreraSel == 0" type="submit" form="formNewCurso" class="btn btn-primary mt-2 mt-md-0">
+      <fa-icon [icon]="faSave"></fa-icon>
+      Guardar
+    </button>
+  </form>
+</div>
+
+<hr>
+
+<div>
+  <h3 class="float-left">Cursos</h3>
+
+  <button (click)="eliminarCurso()" [disabled]="cursoSel == null" class="btn btn-danger btn-sm float-right">
+    <fa-icon [icon]="faTrash" ></fa-icon>&nbsp;
+    Eliminar
+  </button>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>C&oacute;digo</th>
+      <th>Nombre</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let c of cursos" (click)="clickCurso(c)" [ngClass]="{'bg-dark text-white': c == cursoSel}">
+      <td>
+        {{ c.codigoCurso }}
+      </td>
+      <td>
+        {{ c.nombreCurso }}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
