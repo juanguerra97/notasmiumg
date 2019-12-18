@@ -30,6 +30,26 @@ namespace NotasMiUMGWebApp.Controllers
             _userManager = userManager;
         }
 
+
+        [HttpGet]
+        [Route("{CodigoCarrera}/{AnoPensum}")]
+        public async Task<IActionResult> GetAllByPensum([FromRoute] uint codigoCarrera, [FromRoute] uint anoPensum)
+        {
+            return Ok(new
+            {
+                status = 200,
+                message = "Pensum-Cursos",
+                data = _context.PensumCursos.Where(pc => pc.CodigoCarrera == codigoCarrera && pc.AnoPensum == anoPensum)
+                    .Select(pc => new
+                    {
+                        pc.CodigoCurso,
+                        pc.Curso.NombreCurso,
+                        pc.Ciclo,
+                        pc.Creditos
+                    })
+            }); ;
+        }
+
         [Authorize]
         [HttpPost]
         [Route("")]
@@ -40,7 +60,7 @@ namespace NotasMiUMGWebApp.Controllers
             {
                 return Forbid();
             }
-
+            
             try
             {
                 await _context.PensumCursos.AddAsync(model);
