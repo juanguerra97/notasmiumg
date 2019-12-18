@@ -18,6 +18,14 @@ export class CursoService {
     return this.http.get<ServerResponse>(`${CursoService.CURSO_API_URL}/${codigoCarrera}`);
   }
 
+  public getAllByPensum(codigoCarrera: number, anoPensum: number): Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(`${CursoService.CURSO_API_URL}/${codigoCarrera}/${anoPensum}`);
+  }
+
+  public getAllByCiclo(codigoCarrera: number, anoPensum: number, ciclo: number): Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(`${CursoService.CURSO_API_URL}/${codigoCarrera}/${anoPensum}/${ciclo}`);
+  }
+
   public create(curso: Curso): Observable<ServerResponse> {
     return this.http.post<ServerResponse>(CursoService.CURSO_API_URL, curso);
   }
