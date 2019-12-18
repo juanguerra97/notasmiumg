@@ -21,6 +21,7 @@ export class CarrerasComponent implements OnInit {
   public formNewCarrera = new FormGroup({
     codigoCarrera: new FormControl('', [
       Validators.required,
+      Validators.pattern('^\\d+$')
     ]),
     nombreCarrera: new FormControl('',[
       Validators.required
