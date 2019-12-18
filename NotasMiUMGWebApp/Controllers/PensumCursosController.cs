@@ -32,7 +32,8 @@ namespace NotasMiUMGWebApp.Controllers
 
 
         [HttpGet]
-        [Route("{CodigoCarrera}/{AnoPensum}")]
+        [Route("cursos/{CodigoCarrera}/{AnoPensum}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllByPensum([FromRoute] uint codigoCarrera, [FromRoute] uint anoPensum)
         {
             return Ok(new
@@ -44,6 +45,25 @@ namespace NotasMiUMGWebApp.Controllers
                     {
                         pc.CodigoCurso,
                         pc.Curso.NombreCurso,
+                        pc.Ciclo,
+                        pc.Creditos
+                    })
+            }); ;
+        }
+
+        [HttpGet]
+        [Route("pensums/{CodigoCarrera}/{CodigoCurso}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllByCurso([FromRoute] uint codigoCarrera, [FromRoute] uint codigoCurso)
+        {
+            return Ok(new
+            {
+                status = 200,
+                message = "Pensum-Cursos",
+                data = _context.PensumCursos.Where(pc => pc.CodigoCarrera == codigoCarrera && pc.CodigoCurso == codigoCurso)
+                    .Select(pc => new
+                    {
+                        pc.AnoPensum,
                         pc.Ciclo,
                         pc.Creditos
                     })
