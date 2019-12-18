@@ -1,1 +1,49 @@
-<p>pensums works!</p>
+
+<div class="row">
+  <div class="col-12 col-sm-2 col-md-1">
+    <label for="codigoCarrera">Carrera</label>
+  </div>
+  <div class="col-12 col-sm-10 col-md-6">
+    <select (change)="cargarPensums()" [(ngModel)]="codigoCarreraSel" id="codigoCarrera" class="custom-select">
+      <option *ngFor="let c of carreras" [value]="c.codigoCarrera">{{ c.codigoCarrera + ' ' + c.nombreCarrera }}</option>
+    </select>
+  </div>
+</div>
+
+<div>
+  <form [formGroup]="formNewPensum" id="formNewPensum" class="form-inline mt-4 mb-3">
+    <input formControlName="anoPensum" type="number" class="form-control mr-sm-2 mt-md-0" placeholder="A&ntilde;o">
+    <button (click)="crearPensum()" [disabled]="!formNewPensum.valid || codigoCarreraSel == 0" type="submit" form="formNewPensum" class="btn btn-primary mt-2 mt-sm-0">
+      <fa-icon [icon]="faSave"></fa-icon>
+      Guardar
+    </button>
+  </form>
+</div>
+
+<hr>
+
+<div>
+  <h3 class="float-left">Pensums</h3>
+
+  <button (click)="eliminarPensum()" [disabled]="pensumSel == null" class="btn btn-danger btn-sm float-right">
+    <fa-icon [icon]="faTrash" ></fa-icon>&nbsp;
+    Eliminar
+  </button>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>A&ntilde;o</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let p of pensums" (click)="clickPensum(p)" [ngClass]="{'bg-dark text-white': p == pensumSel}">
+      <td>
+        {{ p }}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
