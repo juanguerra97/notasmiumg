@@ -28,6 +28,7 @@ export class CursosComponent implements OnInit {
   public formNewCurso = new FormGroup({
     codigoCurso: new FormControl('', [
       Validators.required,
+      Validators.pattern('^\\d+$')
     ]),
     nombreCurso: new FormControl('',[
       Validators.required
