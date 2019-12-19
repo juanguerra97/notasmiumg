@@ -1,49 +1,128 @@
 
 <div class="row">
-  <div class="col-12 col-sm-2 col-md-1">
-    <label for="codigoCarrera">Carrera</label>
+  <div class="col">
+    <div class="row">
+      <label for="codigoCarrera" class="col-12 col-sm-2 col-md-1 col-form-label">Carrera</label>
+      <div class="col-12 col-sm-10 col-md-5">
+        <select (change)="changeCarrera()" [(ngModel)]="codigoCarreraSel" id="codigoCarrera" class="custom-select">
+          <option *ngFor="let c of carreras" [value]="c.codigoCarrera">{{ c.codigoCarrera + ' ' + c.nombreCarrera }}</option>
+        </select>
+      </div>
+    </div>
   </div>
-  <div class="col-12 col-sm-10 col-md-6">
-    <select (change)="cargarPensums()" [(ngModel)]="codigoCarreraSel" id="codigoCarrera" class="custom-select">
-      <option *ngFor="let c of carreras" [value]="c.codigoCarrera">{{ c.codigoCarrera + ' ' + c.nombreCarrera }}</option>
-    </select>
-  </div>
-</div>
-
-<div>
-  <form [formGroup]="formNewPensum" id="formNewPensum" class="form-inline mt-4 mb-3">
-    <input formControlName="anoPensum" type="number" class="form-control mr-sm-2 mt-md-0" placeholder="A&ntilde;o">
-    <button (click)="crearPensum()" [disabled]="!formNewPensum.valid || codigoCarreraSel == 0" type="submit" form="formNewPensum" class="btn btn-primary mt-2 mt-sm-0">
-      <fa-icon [icon]="faSave"></fa-icon>
-      Guardar
-    </button>
-  </form>
 </div>
 
 <hr>
 
-<div>
-  <h3 class="float-left">Pensums</h3>
+<div class="row">
+  <div [ngClass]="{'col-12': true, 'col-sm-5 col-md-6': verCursosChecked}">
 
-  <button (click)="eliminarPensum()" [disabled]="pensumSel == null" class="btn btn-danger btn-sm float-right">
-    <fa-icon [icon]="faTrash" ></fa-icon>&nbsp;
-    Eliminar
-  </button>
-</div>
+    <div class="row mb-3">
+      <div class="col">
+        <form [formGroup]="formNewPensum" id="formNewPensum">
+          <div class="form-group">
+            <input formControlName="anoPensum" type="number" class="form-control" placeholder="A&ntilde;o">
+          </div>
+            <button (click)="crearPensum()" [disabled]="!formNewPensum.valid || codigoCarreraSel == 0" type="submit" form="formNewPensum" class="btn btn-primary btn-sm float-right">
+              <fa-icon [icon]="faSave"></fa-icon>
+              Guardar
+            </button>
+        </form>
+      </div>
+    </div>
 
-<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-    <tr>
-      <th>A&ntilde;o</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let p of pensums" (click)="clickPensum(p)" [ngClass]="{'bg-dark text-white': p == pensumSel}">
-      <td>
-        {{ p }}
-      </td>
-    </tr>
-    </tbody>
-  </table>
+    <h3 class="float-left">Pensums</h3>
+
+    <div class="float-right d-flex mb-2 mb-md-0">
+
+      <div class="mr-2 flex-column">
+        <input (change)="changeVerPensumCursos()" [(ngModel)]="verCursosChecked" type="checkbox" id="verCursosCheckbox" class="form-check-inline">
+        <label for="verCursosCheckbox" class="form-check-label">Ver cursos</label>
+      </div>
+
+      <div class="flex-column">
+        <button (click)="eliminarPensum()" [disabled]="pensumSel == null" class="btn btn-danger btn-sm">
+          <fa-icon [icon]="faTrash" ></fa-icon>&nbsp;
+          Eliminar
+        </button>
+      </div>
+
+    </div>
+
+    <div class="table-responsive mt-3 mt-sm-0">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>A&ntilde;o</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let p of pensums" (click)="clickPensum(p)" [ngClass]="{'bg-dark text-white': p == pensumSel}">
+          <td>
+            {{ p }}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div [ngClass]="{'d-none': !verCursosChecked, 'col-12 col-sm-7 col-md-6': verCursosChecked}">
+
+    <div class="row mb-3">
+      <div class="col">
+        <form (ngSubmit)="crearPensumCurso()" [formGroup]="formNewPensumCurso" id="formNewPensumCurso">
+          <div class="form-row">
+            <div class="form-group col-12 col-lg-6">
+              <select formControlName="codigoCurso" class="custom-select">
+                <option *ngFor="let c of cursos" [value]="c.codigoCurso">{{ c.nombreCurso }}</option>
+              </select>
+            </div>
+            <div class="form-group col-6 col-lg-3">
+              <input formControlName="ciclo" type="number" class="form-control" placeholder="Ciclo">
+            </div>
+            <div class="form-group col-6 col-lg-3">
+              <input formControlName="creditos" type="number" class="form-control" placeholder="Cr&eacute;ditos">
+            </div>
+            <div class="col">
+              <button [disabled]="!formNewPensumCurso.valid || pensumSel == null" type="submit" form="formNewPensumCurso" class="btn btn-primary btn-sm float-right">
+                <fa-icon [icon]="faSave"></fa-icon>
+                Guardar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <h3 class="float-left">Cursos</h3>
+
+        <button (click)="eliminarPensumCurso()" [disabled]="pensumCursoSel == null" class="btn btn-danger btn-sm float-right">
+          <fa-icon [icon]="faTrash" ></fa-icon>&nbsp;
+          Eliminar
+        </button>
+      </div>
+    </div>
+
+    <div class="row table-responsive">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Curso</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let c of pensumCursos" (click)="clickPensumCurso(c)" [ngClass]="{'bg-dark text-white': c == pensumCursoSel}">
+          <td>
+            {{ c.ciclo + ' | ' + c.nombreCurso }}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
 </div>
