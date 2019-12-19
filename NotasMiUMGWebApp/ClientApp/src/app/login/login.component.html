@@ -13,7 +13,7 @@
           <input formControlName="password" type="password" id="password" class="form-control" placeholder="Contrase&ntilde;a">
         </div>
 
-        <button [disabled]="!loginForm.valid" type="submit" form="loginForm" class="btn btn-primary">
+        <button [disabled]="!loginForm.valid || procesandoLogin" type="submit" form="loginForm" class="btn btn-primary">
           Entrar&nbsp;
           <span *ngIf="procesandoLogin" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         </button>
