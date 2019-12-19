@@ -15,7 +15,7 @@
 <hr>
 
 <div class="row">
-  <div [ngClass]="{'col-12': true, 'col-sm-5 col-md-6': verCursosChecked}">
+  <div [ngClass]="{'col-12': true, 'col-sm-5 col-md-6 col-lg-5': verCursosChecked}">
 
     <div class="row mb-3">
       <div class="col">
@@ -67,7 +67,7 @@
     </div>
   </div>
 
-  <div [ngClass]="{'d-none': !verCursosChecked, 'col-12 col-sm-7 col-md-6': verCursosChecked}">
+  <div [ngClass]="{'d-none': !verCursosChecked, 'col-12 col-sm-7 col-md-6 col-lg-7': verCursosChecked}">
 
     <div class="row mb-3">
       <div class="col">
@@ -110,13 +110,21 @@
       <table class="table table-hover">
         <thead>
         <tr>
-          <th>Curso</th>
+          <th>Nombre</th>
+          <th>Ciclo</th>
+          <th>Cr&eacute;ditos</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let c of pensumCursos" (click)="clickPensumCurso(c)" [ngClass]="{'bg-dark text-white': c == pensumCursoSel}">
           <td>
-            {{ c.ciclo + ' | ' + c.nombreCurso }}
+            {{ c.nombreCurso }}
+          </td>
+          <td class="text-center">
+            {{ c.ciclo }}
+          </td>
+          <td class="text-center">
+            {{ c.creditos }}
           </td>
         </tr>
         </tbody>
