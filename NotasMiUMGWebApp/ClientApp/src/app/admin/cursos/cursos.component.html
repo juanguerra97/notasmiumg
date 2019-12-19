@@ -1,5 +1,5 @@
 
-<div class="row">
+<!--<div class="row">
   <div class="col-12 col-sm-2 col-md-1">
     <label for="codigoCarrera">Carrera</label>
   </div>
@@ -8,17 +8,42 @@
       <option *ngFor="let c of carreras" [value]="c.codigoCarrera">{{ c.codigoCarrera + ' ' + c.nombreCarrera }}</option>
     </select>
   </div>
+</div>-->
+
+<div class="row">
+  <div class="col">
+    <div class="row">
+      <label for="codigoCarrera" class="col-12 col-sm-2 col-md-1 col-form-label">Carrera</label>
+      <div class="col-12 col-sm-10 col-md-5">
+        <select (change)="cargarCursos()" [(ngModel)]="codigoCarreraSel" id="codigoCarrera" class="custom-select">
+          <option *ngFor="let c of carreras" [value]="c.codigoCarrera">{{ c.codigoCarrera + ' ' + c.nombreCarrera }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div>
-  <form [formGroup]="formNewCurso" id="formNewCurso" class="form-inline mt-4 mb-3">
-    <input formControlName="codigoCurso" type="number" class="form-control mr-sm-2 mt-md-0" placeholder="C&oacute;digo">
-    <input formControlName="nombreCurso" type="text" class="form-control mt-2 mt-sm-0 mr-sm-2" placeholder="Nombre">
-    <button (click)="crearCurso()" [disabled]="!formNewCurso.valid || codigoCarreraSel == 0" type="submit" form="formNewCurso" class="btn btn-primary mt-2 mt-md-0">
-      <fa-icon [icon]="faSave"></fa-icon>
-      Guardar
-    </button>
-  </form>
+<hr>
+
+<div class="row">
+  <div class="col">
+    <form [formGroup]="formNewCurso" id="formNewCurso" class="mt-2 mb-2">
+      <div class="form-row">
+        <div class="form-group col-12 col-sm-5 col-md-3">
+          <input formControlName="codigoCurso" type="number" class="form-control mr-sm-2" placeholder="C&oacute;digo">
+        </div>
+        <div class="form-group col-12 col-sm-7 col-md-5">
+          <input formControlName="nombreCurso" type="text" class="form-control mr-sm-2" placeholder="Nombre">
+        </div>
+        <div class="col-12 col-md-2">
+          <button (click)="crearCurso()" [disabled]="!formNewCurso.valid || codigoCarreraSel == 0" type="submit" form="formNewCurso" class="btn btn-primary">
+            <fa-icon [icon]="faSave"></fa-icon>
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 
 <hr>
