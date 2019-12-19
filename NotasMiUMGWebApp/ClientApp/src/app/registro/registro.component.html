@@ -58,7 +58,7 @@
 
     <div class="row">
       <div class="col">
-        <button [disabled]="!formRegistro.valid" type="submit" form="formRegistro" class="btn btn-primary float-right">
+        <button [disabled]="!formRegistro.valid || procesandoRegistro" type="submit" form="formRegistro" class="btn btn-primary float-right">
           Guardar&nbsp;
           <span *ngIf="procesandoRegistro" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         </button>
