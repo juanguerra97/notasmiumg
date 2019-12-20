@@ -36,10 +36,10 @@
 
           <ng-template #menuEstudiante>
             <li class="nav-item">
-              <a class="nav-link text-dark">Notas</a>
+              <a [routerLinkActive]="['link-active']" [routerLink]="['/estudiante/notas']" class="nav-link text-dark">Notas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark">Estad&iacute;sticas</a>
+              <a [routerLinkActive]="['link-active']" [routerLink]="['/estudiante/estadisticas']" class="nav-link text-dark">Estad&iacute;sticas</a>
             </li>
           </ng-template>
 
