@@ -8,6 +8,7 @@ interface IUser {
   username: string;
   roles: string;
   token: string;
+  estudianteId?: string;
 }
 
 @Injectable({
@@ -57,6 +58,9 @@ export class AuthService {
               username = result[1];
             }
             this.usuario = {username, roles: `${res.roles}`, token: res.token};
+            if(this.usuario.roles.includes('ESTUDIANTE')) {
+              this.usuario.estudianteId = res.estudianteId;
+            }
             this.saveUserToStorage();
             resolve(this.usuario);
           }, (err) => {

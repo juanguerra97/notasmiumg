@@ -9,6 +9,8 @@ using NotasMiUMGWebApp.Models.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using System.Text.RegularExpressions;
+using NotasMiUMGWebApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace NotasMiUMGWebApp.Controllers
 {
@@ -21,9 +23,12 @@ namespace NotasMiUMGWebApp.Controllers
 
         private UserManager<IdentityUser> _userManager;
 
-        public AuthenticateController(UserManager<IdentityUser> userManager)
+        private ApplicationDbContext _context;
+
+        public AuthenticateController(UserManager<IdentityUser> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
+            _context = context;
         }
 
         [HttpPost]
@@ -59,6 +64,17 @@ namespace NotasMiUMGWebApp.Controllers
                     );
 
                 var roles = await _userManager.GetRolesAsync(user);
+                if(await _userManager.IsInRoleAsync(user,"ESTUDIANTE"))
+                {
+                    return Ok(new
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        roles = roles,
+                        expiration = token.ValidTo,
+                        estudianteId = (await _context.Estudiantes.FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == user.Id))?.EstudianteId
+                    });
+                }
+
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
