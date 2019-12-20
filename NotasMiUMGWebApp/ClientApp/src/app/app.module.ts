@@ -15,6 +15,7 @@ import { RegistroComponent } from './registro/registro.component';
 import { NotLogedInGuard } from './not-loged-in.guard';
 import { LogedInGuard } from './loged-in.guard';
 import { AdminGuard } from './admin.guard';
+import { EstudianteGuard } from './estudiante.guard';
 import { TokenInterceptor } from './token.interceptor';
 
 @NgModule({
@@ -38,6 +39,10 @@ import { TokenInterceptor } from './token.interceptor';
       {
         path: 'admin', canLoad: [AdminGuard], canActivateChild: [AdminGuard],
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+      },
+      {
+        path: 'estudiante', canLoad: [EstudianteGuard], canActivateChild: [EstudianteGuard],
+        loadChildren: () => import('./estudiante/estudiante.module').then(m => m.EstudianteModule)
       },
     ]),
     ReactiveFormsModule,
