@@ -30,7 +30,7 @@ export class NavMenuComponent {
   }
 
   public isAdmin(): boolean {
-    return this.auth.isAdmin();
+    return this.auth.hasRole('ADMIN');
   }
 
   public getUsername(): string {

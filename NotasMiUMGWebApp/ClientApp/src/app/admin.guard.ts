@@ -39,7 +39,7 @@ export class AdminGuard implements CanActivate, CanActivateChild, CanLoad {
   }
 
   private isAdmin(): boolean {
-    const admin: boolean = this.auth.isAdmin();
+    const admin: boolean = this.auth.hasRole('ADMIN');
     if(!admin) {
       this.router.navigateByUrl('/');
     }
