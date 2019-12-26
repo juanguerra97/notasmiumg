@@ -29,17 +29,22 @@ namespace NotasMiUMGWebApp.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("{EstudianteId}")]
-        public async Task<IActionResult> GetAll([FromRoute] uint estudianteId)
+        [Route("")]
+        public async Task<IActionResult> GetAll()
         {
-            if(!(await esEstudiante(estudianteId)))
+
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null)
             {
                 return Forbid();
             }
+
             return Ok(new { 
                 status = 200,
                 message = "Notas",
-                data = _context.Notas.Where(n => n.EstudianteId == estudianteId)
+                data = _context.Notas.Where(n => n.Estudiante.EstudianteId == estud.EstudianteId)
                     .OrderBy(n => n.Ano).ThenBy(n => n.PensumCurso.Ciclo)
                     .Select(n => new
                     {
@@ -61,18 +66,23 @@ namespace NotasMiUMGWebApp.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("{EstudianteId}/{Ano}")]
-        public async Task<IActionResult> GetAllByAno([FromRoute] uint estudianteId, [FromRoute] uint ano)
+        [Route("{Ano}")]
+        public async Task<IActionResult> GetAllByAno([FromRoute] uint ano)
         {
-            if (!(await esEstudiante(estudianteId)))
+
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null)
             {
                 return Forbid();
             }
+
             return Ok(new
             {
                 status = 200,
                 message = "Notas",
-                data = _context.Notas.Where(n => n.EstudianteId == estudianteId && n.Ano == ano)
+                data = _context.Notas.Where(n => n.EstudianteId == estud.EstudianteId && n.Ano == ano)
                     .OrderBy(n => n.PensumCurso.Ciclo)
                     .Select(n => new
                     {
@@ -93,18 +103,23 @@ namespace NotasMiUMGWebApp.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("{EstudianteId}/{Ano}/{Ciclo}")]
-        public async Task<IActionResult> GetAllByAnoCiclo([FromRoute] uint estudianteId, [FromRoute] uint ano, [FromRoute] byte ciclo)
+        [Route("{Ano}/{Ciclo}")]
+        public async Task<IActionResult> GetAllByAnoCiclo([FromRoute] uint ano, [FromRoute] byte ciclo)
         {
-            if (!(await esEstudiante(estudianteId)))
+
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null)
             {
                 return Forbid();
             }
+
             return Ok(new
             {
                 status = 200,
                 message = "Notas",
-                data = _context.Notas.Where(n => n.EstudianteId == estudianteId && n.Ano == ano && n.PensumCurso.Ciclo == ciclo)
+                data = _context.Notas.Where(n => n.EstudianteId == estud.EstudianteId && n.Ano == ano && n.PensumCurso.Ciclo == ciclo)
                     .Select(n => new
                     {
                         n.CodigoCarrera,
@@ -126,10 +141,18 @@ namespace NotasMiUMGWebApp.Controllers
         [Route("")]
         public async Task<IActionResult> Crear([FromBody] Nota model)
         {
-            if (!(await esEstudiante(model.EstudianteId)))
+
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier)
+                .FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(
+                await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.Include(e => e.Pensum)
+                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null || model.EstudianteId != estud.EstudianteId)
             {
                 return Forbid();
             }
+
             try
             {
                 await _context.Notas.AddAsync(model);
@@ -163,10 +186,17 @@ namespace NotasMiUMGWebApp.Controllers
 
         [Authorize]
         [HttpDelete]
-        [Route("{EstudianteId}/{CodigoCarrera}/{AnoPensum}/{CodigoCurso}/{Ano}")]
-        public async Task<IActionResult> Eliminar([FromRoute] uint estudianteId, [FromRoute] uint codigoCarrera, [FromRoute] uint anoPensum, [FromRoute] uint codigoCurso, [FromRoute] uint ano)
+        [Route("{CodigoCurso}/{Ano}")]
+        public async Task<IActionResult> Eliminar([FromRoute] uint codigoCurso, [FromRoute] uint ano)
         {
-            if (!(await esEstudiante(estudianteId)))
+
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier)
+                .FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(
+                await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.Include(e => e.Pensum)
+                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null)
             {
                 return Forbid();
             }
@@ -174,8 +204,9 @@ namespace NotasMiUMGWebApp.Controllers
             try
             {
                 var nota = await _context.Notas
-                    .FirstOrDefaultAsync(n => n.EstudianteId == estudianteId && n.CodigoCarrera == codigoCarrera 
-                        && n.AnoPensum == anoPensum && n.CodigoCurso == codigoCurso && n.Ano == ano);
+                    .FirstOrDefaultAsync(n => n.EstudianteId == estud.EstudianteId 
+                        && n.CodigoCarrera == estud.Pensum.CodigoCarrera 
+                        && n.AnoPensum == estud.Pensum.AnoPensum && n.CodigoCurso == codigoCurso && n.Ano == ano);
                 if(nota == null)
                 {
                     return BadRequest(new
@@ -213,7 +244,13 @@ namespace NotasMiUMGWebApp.Controllers
         [Route("")]
         public async Task<IActionResult> Actualizar([FromBody] Nota model)
         {
-            if (!(await esEstudiante(model.EstudianteId)))
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier)
+                .FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(
+                await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.Include(e => e.Pensum)
+                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null)
             {
                 return Forbid();
             }
@@ -221,9 +258,9 @@ namespace NotasMiUMGWebApp.Controllers
             try
             {
                 var nota = await _context.Notas
-                    .FirstOrDefaultAsync(n => n.EstudianteId == model.EstudianteId 
-                        && n.CodigoCarrera == model.CodigoCarrera
-                        && n.AnoPensum == model.AnoPensum && n.CodigoCurso == model.CodigoCurso 
+                    .FirstOrDefaultAsync(n => n.EstudianteId == estud.EstudianteId 
+                        && n.CodigoCarrera == estud.Pensum.CodigoCarrera
+                        && n.AnoPensum == estud.Pensum.AnoPensum && n.CodigoCurso == model.CodigoCurso 
                         && n.Ano == model.Ano);
                 if (nota == null)
                 {
