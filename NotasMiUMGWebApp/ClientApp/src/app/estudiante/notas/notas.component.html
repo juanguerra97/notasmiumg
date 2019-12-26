@@ -1,1 +1,65 @@
-<p>notas works!</p>
+
+
+<div class="row">
+  <div class="col">
+    <form [formGroup]="formVerNotas" id="formVerNotas" class="row mb-3 mb-sm-0">
+      <div class="col-7 col-sm-6 col-md-4 form-group">
+        <input (input)="cambioFiltro()" formControlName="ano" type="number" min="1" step="1" class="form-control" placeholder="A&ntilde;o">
+      </div>
+      <div class="col-5 col-sm-4 col-md-2 form-group">
+        <input (input)="cambioFiltro()" formControlName="ciclo" type="number" min="1" step="1" class="form-control" placeholder="Ciclo">
+      </div>
+      <div class="col-12 col-sm-2">
+        <button (click)="verNotas()" [disabled]="!formVerNotas.valid" type="submit" form="formVerNotas" class="btn btn-outline-primary float-right float-sm-none">
+          <fa-icon [icon]="faFilter"></fa-icon>
+          Ver
+        </button>
+      </div>
+    </form>
+
+
+
+    <div class="row">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <th>Curso</th>
+            <th>P1</th>
+            <th>P2</th>
+            <th>Actividades</th>
+            <th>Zona</th>
+            <th>Final</th>
+            <th>Nota final</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let n of notas">
+                <td>{{ n.nombreCurso }}</td>
+                <td>{{ n.primerParcial }}</td>
+                <td>{{ n.segundoParcial }}</td>
+                <td>{{ n.actividades }}</td>
+                <td>{{ n.zona }}</td>
+                <td>{{ n.examenFinal }}</td>
+                <td>{{ n.notaFinal }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-2 mt-sm-0">
+      <div class="col">
+        <button [disabled]="!formVerNotas.valid || filtroModificado" class="btn btn-info btn-sm">
+          Agregar
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+        <button [disabled]="notaSel == null" class="btn btn-danger btn-sm ml-2">
+          Eliminar
+          <fa-icon [icon]="faTrashAlt"></fa-icon>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
