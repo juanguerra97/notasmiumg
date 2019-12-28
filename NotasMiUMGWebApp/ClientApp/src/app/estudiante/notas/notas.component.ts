@@ -109,14 +109,20 @@ export class NotasComponent implements OnInit {
     this.modalService.dismissAll();// cierra el modal
   }
 
+  public onEliminarNota(): void {
+    if(this.notaSel == null || !this.formVerNotas.valid) return;
+    this.notaService.delete(this.notaSel.codigoCurso, this.formVerNotas.value.ano)
+      .subscribe((res: ServerResponse) => {
+        if(res.status == 200) {
+          this.cargarNotas();
+        }
+      }, console.error);
+  }
+
   public openModalAgregarNota(content: any): void {
     if(!this.formVerNotas.valid) return;
     this.formNuevaNota.reset();
     this.modalService.open(content);
-  }
-
-  public imp(val: any): void {
-    console.log(val);
   }
 
   public verNotas(): void {
@@ -148,6 +154,14 @@ export class NotasComponent implements OnInit {
           this.cursos = res.data;
         }
       }, console.error);
+  }
+
+  public clickNota(nota: Nota): void {
+    if(this.notaSel == nota) {
+      this.notaSel = null;
+    } else {
+      this.notaSel = nota;
+    }
   }
 
 }
