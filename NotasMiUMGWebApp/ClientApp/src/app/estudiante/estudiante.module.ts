@@ -5,6 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EstudianteRoutes } from './estudiante.routes';
 import { NotasComponent } from './notas/notas.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [NotasComponent, EstadisticasComponent],
@@ -13,7 +14,8 @@ import { EstadisticasComponent } from './estadisticas/estadisticas.component';
     EstudianteRoutes,
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgbModule
   ]
 })
 export class EstudianteModule { }
