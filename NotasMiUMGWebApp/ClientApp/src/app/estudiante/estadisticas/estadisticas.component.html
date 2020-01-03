@@ -1,1 +1,33 @@
-<p>estadisticas works!</p>
+
+<div class="row">
+  <div class="col">
+    <h4>Promedio general: {{ promedioGeneral }}</h4>
+  </div>
+</div>
+
+<hr>
+
+<div *ngIf="mostrarChartPromedioAnual" class="chart-wrapper">
+  <canvas baseChart
+          [datasets]="promedioAnualChartData"
+          [labels]="promedioAnualChartLabels"
+          [options]="promedioAnualChartOptions"
+          [plugins]="promedioAnualChartPlugins"
+          [legend]="promedioAnualChartLegend"
+          [chartType]="promedioAnualChartType">
+  </canvas>
+</div>
+
+<hr>
+
+<div *ngIf="mostrarChartPromedioSemestral" class="chart-wrapper">
+  <canvas baseChart
+          [datasets]="promedioSemestralChartData"
+          [labels]="promedioSemestralChartLabels"
+          [options]="promedioSemestralChartOptions"
+          [plugins]="promedioSemestralChartPlugins"
+          [legend]="promedioSemestralChartLegend"
+          [chartType]="promedioSemestralChartType">
+  </canvas>
+</div>
+
