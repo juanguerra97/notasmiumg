@@ -6,6 +6,7 @@ import { EstudianteRoutes } from './estudiante.routes';
 import { NotasComponent } from './notas/notas.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [NotasComponent, EstadisticasComponent],
@@ -15,7 +16,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    NgbModule
+    NgbModule,
+    ChartsModule
   ]
 })
 export class EstudianteModule { }
