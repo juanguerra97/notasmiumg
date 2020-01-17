@@ -12,6 +12,7 @@ import ServerResponse from '../../model/ServerResponse';
 export class EstadisticasComponent implements OnInit {
 
   public promedioGeneral = 0;
+  public totalCreditos = 0;
 
   promedioAnualChartOptions: ChartOptions = {
     responsive: true,
@@ -43,6 +44,13 @@ export class EstadisticasComponent implements OnInit {
           this.promedioGeneral = res.data.general;
           this.crearChartPromedioAnual(res.data.anual);
           this.crearChartPromedioSemestral(res.data.semestral);
+        }
+      }, console.error);
+
+    this.estadisticaService.getCreditos()
+      .subscribe((res: ServerResponse) => {
+        if(res.status == 200) {
+          this.totalCreditos = res.data.total;
         }
       }, console.error);
   }
