@@ -143,5 +143,107 @@ namespace NotasMiUMGWebApp.Controllers
             });
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("primerparcial")]
+        public async Task<IActionResult> GetPrimerosParciales()
+        {
+
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.Include(e => e.Notas).ThenInclude(n => n.PensumCurso)
+                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null)
+            {
+                return Forbid();
+            }
+
+            var notas = estud.Notas;
+
+            byte? maxNotaPrimerParcial = notas.Max(n => n.PrimerParcial);
+            byte? minNotaPrimerParcial = notas.Min(n => n.PrimerParcial);
+
+            return Ok(new
+            {
+                status = 200,
+                message = "Estadísticas primeros parciales",
+                data = new
+                {
+                    max = new
+                    {
+                        val = maxNotaPrimerParcial, // primer parcial mas alto
+                        cursos = notas.Where(n => n.PrimerParcial == maxNotaPrimerParcial)
+                            .Select(n => new {
+                                n.PensumCurso.Curso.NombreCurso,
+                                n.Ano,
+                                n.Aprobado
+                            })
+                    },
+                    min = new
+                    {
+                        val = minNotaPrimerParcial, // primer parcial mas bajo
+                        cursos = notas.Where(n => n.PrimerParcial == minNotaPrimerParcial)
+                            .Select(n => new
+                            {
+                                n.PensumCurso.Curso.NombreCurso,
+                                n.Ano,
+                                n.Aprobado
+                            })
+                    },
+                }
+            });
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("segundoparcial")]
+        public async Task<IActionResult> GetSegundosParciales()
+        {
+
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.Include(e => e.Notas).ThenInclude(n => n.PensumCurso)
+                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null)
+            {
+                return Forbid();
+            }
+
+            var notas = estud.Notas;
+
+            byte? maxNotaSegundoParcial = notas.Max(n => n.SegundoParcial);
+            byte? minNotaSegundoParcial = notas.Min(n => n.SegundoParcial);
+
+            return Ok(new
+            {
+                status = 200,
+                message = "Estadísticas segundos parciales",
+                data = new
+                {
+                    max = new
+                    {
+                        val = maxNotaSegundoParcial, // segundo parcial mas alto
+                        cursos = notas.Where(n => n.SegundoParcial == maxNotaSegundoParcial)
+                            .Select(n => new {
+                                n.PensumCurso.Curso.NombreCurso,
+                                n.Ano,
+                                n.Aprobado
+                            })
+                    },
+                    min = new
+                    {
+                        val = minNotaSegundoParcial, // segundo parcial mas bajo
+                        cursos = notas.Where(n => n.SegundoParcial == minNotaSegundoParcial)
+                            .Select(n => new
+                            {
+                                n.PensumCurso.Curso.NombreCurso,
+                                n.Ano,
+                                n.Aprobado
+                            })
+                    },
+                }
+            });
+        }
+
     }
 }
