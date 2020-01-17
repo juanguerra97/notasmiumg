@@ -245,5 +245,107 @@ namespace NotasMiUMGWebApp.Controllers
             });
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("actividades")]
+        public async Task<IActionResult> GetActividades()
+        {
+
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.Include(e => e.Notas).ThenInclude(n => n.PensumCurso)
+                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null)
+            {
+                return Forbid();
+            }
+
+            var notas = estud.Notas;
+
+            byte? maxNotaActividades = notas.Max(n => n.Actividades);
+            byte? minNotaActividades = notas.Min(n => n.Actividades);
+
+            return Ok(new
+            {
+                status = 200,
+                message = "Estadísticas actividades",
+                data = new
+                {
+                    max = new
+                    {
+                        val = maxNotaActividades, // nota mas alta en actividades
+                        cursos = notas.Where(n => n.Actividades == maxNotaActividades)
+                            .Select(n => new {
+                                n.PensumCurso.Curso.NombreCurso,
+                                n.Ano,
+                                n.Aprobado
+                            })
+                    },
+                    min = new
+                    {
+                        val = minNotaActividades, // nota mas baja en actividades
+                        cursos = notas.Where(n => n.Actividades == minNotaActividades)
+                            .Select(n => new
+                            {
+                                n.PensumCurso.Curso.NombreCurso,
+                                n.Ano,
+                                n.Aprobado
+                            })
+                    },
+                }
+            });
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("zonas")]
+        public async Task<IActionResult> GetZonas()
+        {
+
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.Include(e => e.Notas).ThenInclude(n => n.PensumCurso)
+                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null)
+            {
+                return Forbid();
+            }
+
+            var notas = estud.Notas;
+
+            byte? maxZona = notas.Max(n => n.Zona);
+            byte? minZona = notas.Min(n => n.Zona);
+
+            return Ok(new
+            {
+                status = 200,
+                message = "Estadísticas de zonas",
+                data = new
+                {
+                    max = new
+                    {
+                        val = maxZona, // zona mas alta
+                        cursos = notas.Where(n => n.Zona == maxZona)
+                            .Select(n => new {
+                                n.PensumCurso.Curso.NombreCurso,
+                                n.Ano,
+                                n.Aprobado
+                            })
+                    },
+                    min = new
+                    {
+                        val = minZona, // zona mas baja
+                        cursos = notas.Where(n => n.Zona == minZona)
+                            .Select(n => new
+                            {
+                                n.PensumCurso.Curso.NombreCurso,
+                                n.Ano,
+                                n.Aprobado
+                            })
+                    },
+                }
+            });
+        }
+
     }
 }
