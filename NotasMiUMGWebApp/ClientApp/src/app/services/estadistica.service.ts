@@ -17,4 +17,28 @@ export class EstadisticaService {
     return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/promedios`);
   }
 
+  public getExamenesFinales(): Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/examenfinal`);
+  }
+
+  public getPrimerosParciales(): Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/primerparcial`);
+  }
+
+  public getSegundosParciales(): Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/segundoparcial`);
+  }
+
+  public getActividades(): Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/actividades`);
+  }
+
+  public getZonas(): Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/zona`);
+  }
+
+  public getCreditos(): Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/creditos`);
+  }
+
 }
