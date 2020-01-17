@@ -7,27 +7,30 @@
 
 <hr>
 
-<div *ngIf="mostrarChartPromedioAnual" class="chart-wrapper">
-  <canvas baseChart
-          [datasets]="promedioAnualChartData"
-          [labels]="promedioAnualChartLabels"
-          [options]="promedioAnualChartOptions"
-          [plugins]="promedioAnualChartPlugins"
-          [legend]="promedioAnualChartLegend"
-          [chartType]="promedioAnualChartType">
-  </canvas>
+<div class="row">
+
+  <div *ngIf="mostrarChartPromedioAnual" class="chart-wrapper col-12 col-lg-6">
+    <canvas baseChart
+            [datasets]="promedioAnualChartData"
+            [labels]="promedioAnualChartLabels"
+            [options]="promedioAnualChartOptions"
+            [plugins]="promedioAnualChartPlugins"
+            [legend]="promedioAnualChartLegend"
+            [chartType]="promedioAnualChartType">
+    </canvas>
+  </div>
+
+  <div *ngIf="mostrarChartPromedioSemestral" class="chart-wrapper col-12 col-lg-6">
+    <canvas baseChart
+            [datasets]="promedioSemestralChartData"
+            [labels]="promedioSemestralChartLabels"
+            [options]="promedioSemestralChartOptions"
+            [plugins]="promedioSemestralChartPlugins"
+            [legend]="promedioSemestralChartLegend"
+            [chartType]="promedioSemestralChartType">
+    </canvas>
+  </div>
+
 </div>
 
-<hr>
-
-<div *ngIf="mostrarChartPromedioSemestral" class="chart-wrapper">
-  <canvas baseChart
-          [datasets]="promedioSemestralChartData"
-          [labels]="promedioSemestralChartLabels"
-          [options]="promedioSemestralChartOptions"
-          [plugins]="promedioSemestralChartPlugins"
-          [legend]="promedioSemestralChartLegend"
-          [chartType]="promedioSemestralChartType">
-  </canvas>
-</div>
 
