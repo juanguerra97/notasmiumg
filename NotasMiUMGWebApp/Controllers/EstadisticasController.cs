@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using jguerra.notasmiumg;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -102,11 +103,8 @@ namespace NotasMiUMGWebApp.Controllers
         public async Task<IActionResult> GetExamenesFinales()
         {
 
-            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
-            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
-            var estud = await _context.Estudiantes.Include(e => e.Notas).ThenInclude(n => n.PensumCurso)
-                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
-            if (!esEstud || estud == null)
+            var estud = await GetEstudiante();
+            if (estud == null)
             {
                 return Forbid();
             }
@@ -149,11 +147,8 @@ namespace NotasMiUMGWebApp.Controllers
         public async Task<IActionResult> GetPrimerosParciales()
         {
 
-            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
-            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
-            var estud = await _context.Estudiantes.Include(e => e.Notas).ThenInclude(n => n.PensumCurso)
-                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
-            if (!esEstud || estud == null)
+            var estud = await GetEstudiante();
+            if (estud == null)
             {
                 return Forbid();
             }
@@ -200,11 +195,8 @@ namespace NotasMiUMGWebApp.Controllers
         public async Task<IActionResult> GetSegundosParciales()
         {
 
-            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
-            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
-            var estud = await _context.Estudiantes.Include(e => e.Notas).ThenInclude(n => n.PensumCurso)
-                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
-            if (!esEstud || estud == null)
+            var estud = await GetEstudiante();
+            if (estud == null)
             {
                 return Forbid();
             }
@@ -251,11 +243,8 @@ namespace NotasMiUMGWebApp.Controllers
         public async Task<IActionResult> GetActividades()
         {
 
-            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
-            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
-            var estud = await _context.Estudiantes.Include(e => e.Notas).ThenInclude(n => n.PensumCurso)
-                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
-            if (!esEstud || estud == null)
+            var estud = await GetEstudiante();
+            if (estud == null)
             {
                 return Forbid();
             }
@@ -302,11 +291,8 @@ namespace NotasMiUMGWebApp.Controllers
         public async Task<IActionResult> GetZonas()
         {
 
-            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
-            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
-            var estud = await _context.Estudiantes.Include(e => e.Notas).ThenInclude(n => n.PensumCurso)
-                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
-            if (!esEstud || estud == null)
+            var estud = await GetEstudiante();
+            if (estud == null)
             {
                 return Forbid();
             }
@@ -373,6 +359,18 @@ namespace NotasMiUMGWebApp.Controllers
                     total = notas.Sum(n => n.PensumCurso.Creditos) // total de creditos ganados con los cursos aprobados
                 }
             });
+        }
+
+        private async Task<Estudiante> GetEstudiante()
+        {
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            if (!esEstud) return null;
+            return await _context.Estudiantes.Include(e => e.Notas)
+                .ThenInclude(n => n.PensumCurso)
+                .ThenInclude(pc => pc.Curso)
+                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            
         }
 
     }
