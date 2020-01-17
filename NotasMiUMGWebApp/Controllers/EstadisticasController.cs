@@ -18,8 +18,10 @@ namespace NotasMiUMGWebApp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public EstadisticasController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
-        {
+        public EstadisticasController(
+            ApplicationDbContext context, 
+            UserManager<IdentityUser> userManager
+        ) {
             _context = context;
             _userManager = userManager;
         }
@@ -90,6 +92,53 @@ namespace NotasMiUMGWebApp.Controllers
                         .OrderBy(r => r.semestre) })
                         .Where(r => r.semestres.Count() > 0)
                         .OrderBy(r => r.ano)
+                }
+            });
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("examenfinal")]
+        public async Task<IActionResult> GetExamenesFinales()
+        {
+
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.Include(e => e.Notas).ThenInclude(n => n.PensumCurso)
+                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null)
+            {
+                return Forbid();
+            }
+
+            var notas = estud.Notas;
+
+            byte? maxNotaExamenFinal = notas.Max(n => n.ExamenFinal);
+            byte? minNotaExamenFinal = notas.Min(n => n.ExamenFinal);
+
+            return Ok(new { 
+                status = 200,
+                message = "Estadísticas examenes finales",
+                data = new {
+                    max = new {
+                        val = maxNotaExamenFinal, // examen final mas alto
+                        cursos = notas.Where(n => n.ExamenFinal == maxNotaExamenFinal)
+                            .Select(n => new {
+                                n.PensumCurso.Curso.NombreCurso,
+                                n.Ano,
+                                n.Aprobado
+                            })
+                    },
+                    min = new { 
+                        val = minNotaExamenFinal, // examen final mas bajo
+                        cursos = notas.Where(n => n.ExamenFinal == minNotaExamenFinal)
+                            .Select(n => new
+                            {
+                                n.PensumCurso.Curso.NombreCurso,
+                                n.Ano,
+                                n.Aprobado
+                            })
+                    },
                 }
             });
         }
