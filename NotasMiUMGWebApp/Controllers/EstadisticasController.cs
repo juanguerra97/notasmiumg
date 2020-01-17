@@ -298,7 +298,7 @@ namespace NotasMiUMGWebApp.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("zonas")]
+        [Route("zona")]
         public async Task<IActionResult> GetZonas()
         {
 
@@ -343,6 +343,34 @@ namespace NotasMiUMGWebApp.Controllers
                                 n.Aprobado
                             })
                     },
+                }
+            });
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("creditos")]
+        public async Task<IActionResult> GetCreditos()
+        {
+
+            var idUsuario = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            bool esEstud = await _userManager.IsInRoleAsync(await _userManager.FindByIdAsync(idUsuario), "ESTUDIANTE");
+            var estud = await _context.Estudiantes.Include(e => e.Notas).ThenInclude(n => n.PensumCurso)
+                .FirstOrDefaultAsync(e => e.UsuarioEstudiante.Id == idUsuario);
+            if (!esEstud || estud == null)
+            {
+                return Forbid();
+            }
+
+            var notas = estud.Notas.Where(n => n.Aprobado);
+
+            return Ok(new
+            {
+                status = 200,
+                message = "Estadísticas de créditos",
+                data = new
+                {
+                    total = notas.Sum(n => n.PensumCurso.Creditos) // total de creditos ganados con los cursos aprobados
                 }
             });
         }
