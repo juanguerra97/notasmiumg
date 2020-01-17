@@ -38,14 +38,21 @@ namespace NotasMiUMGWebApp.Controllers
             {
                 return Forbid();
             }
+            
+            // para los promedios, solo se toman en cuenta las notas de cursos aprobados
+            var notas = estud.Notas.Where(n => n.Aprobado);
 
-            var promediosAnual = estud.Notas.GroupBy(n => n.Ano, (key, values) =>
+            // promedios por anio
+            // se agrupan las notas por anio, luego se toma el promedio de cada grupo
+            var promediosAnual = notas.GroupBy(n => n.Ano, (key, values) =>
                         new {
                             ano = key,
                             promedio = values.Average(n => n.NotaFinal)
                         }).OrderBy(r => r.ano);
 
-            var promediosSemestral = estud.Notas.GroupBy(n => n.Ano, (key, values) =>
+            // promedios por semestre en cada anio
+            // se agrupan las notas por anio, luego se agrupan por semestre(1 o 2) y se calcula el promedio
+            var promediosSemestral = notas.GroupBy(n => n.Ano, (key, values) =>
                         new
                         {
                             ano = key,
@@ -57,7 +64,13 @@ namespace NotasMiUMGWebApp.Controllers
                                 }).OrderBy(r => r.semestre)
                         });
 
-            var maxPromedioSemestral = promediosSemestral.Select(p => new { p.ano, maxpromedio = p.semestres.Max(s => s.promedio) }).Max(r => r.maxpromedio);
+            // promedio mas grande en un semestre
+            var maxPromedioSemestral = promediosSemestral.Select(p => 
+                    new 
+                    { 
+                        p.ano, 
+                        maxpromedio = p.semestres.Max(s => s.promedio) 
+                    }).Max(r => r.maxpromedio);
             
 
             return Ok(new
@@ -66,11 +79,17 @@ namespace NotasMiUMGWebApp.Controllers
                 message = "Promedios",
                 data = new
                 {
-                    general = estud.Notas.Average(n => n.NotaFinal),
+                    general = notas.Average(n => n.NotaFinal), // promedio general
                     anual = promediosAnual,
                     semestral = promediosSemestral,
-                    maxanual = promediosAnual.Where(r => r.promedio == promediosAnual.Max(p => p.promedio)).OrderBy(r => r.ano),
-                    maxsemestral = promediosSemestral.Select(r => new { r.ano, semestres = r.semestres.Where(s => s.promedio == maxPromedioSemestral).OrderBy(r => r.semestre) }).Where(r => r.semestres.Count() > 0).OrderBy(r => r.ano)
+                    maxanual = promediosAnual // promedio(s) mas grande(s) en un anio
+                        .Where(r => r.promedio == promediosAnual.Max(p => p.promedio))
+                        .OrderBy(r => r.ano),
+                    maxsemestral = promediosSemestral // promedio(s) mas grande(s) en un semestre 
+                        .Select(r => new { r.ano, semestres = r.semestres.Where(s => s.promedio == maxPromedioSemestral)
+                        .OrderBy(r => r.semestre) })
+                        .Where(r => r.semestres.Count() > 0)
+                        .OrderBy(r => r.ano)
                 }
             });
         }
