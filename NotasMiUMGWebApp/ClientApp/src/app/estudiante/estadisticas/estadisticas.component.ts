@@ -17,6 +17,11 @@ export class EstadisticasComponent implements OnInit {
   public cursosAprobados = 0;
   public cursosReprobados = 0;
 
+  public maxExamenFinal = 0;
+  public minExamenFinal = 0;
+  public cursosMaxExamenFinal: any[] = [];
+  public cursosMinExamenFinal: any[] = [];
+
   public maxPrimerParcial = 0;
   public minPrimerParcial = 0;
   public cursosMaxPrimerParcial: any[] = [];
@@ -67,6 +72,16 @@ export class EstadisticasComponent implements OnInit {
         if(res.status == 200) {
           this.crearChartPromedioAnual(res.data.anual);
           this.crearChartPromedioSemestral(res.data.semestral);
+        }
+      }, console.error);
+
+    this.estadisticaService.getExamenesFinales()
+      .subscribe((res: ServerResponse) => {
+        if(res.status == 200) {
+          this.maxExamenFinal = res.data.max.val;
+          this.cursosMaxExamenFinal = res.data.max.cursos;
+          this.minExamenFinal = res.data.min.val;
+          this.cursosMinExamenFinal = res.data.min.cursos;
         }
       }, console.error);
 

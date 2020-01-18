@@ -50,6 +50,39 @@
 
 <hr>
 
+<div class="row mb-md-4">
+  <div class="col-12 col-md-6">
+    <h2>Examen Final</h2>
+
+    <div class="row">
+      <div class="col">
+        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ maxExamenFinal }}</span></p>
+        <ul class="list-group">
+          <li *ngFor="let c of cursosMaxExamenFinal.slice(0,2)" class="list-group-item">
+            {{ c.nombreCurso + ' ' + c.ano}}
+          </li>
+          <div *ngIf="cursosMaxExamenFinal.length > 2">
+            <a href="" class="float-right">Ver m&aacute;s</a>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ minExamenFinal }}</span></p>
+        <ul class="list-group">
+          <li *ngFor="let c of cursosMinExamenFinal.slice(0,2)" class="list-group-item">
+            {{ c.nombreCurso + ' ' + c.ano}}
+          </li>
+          <div *ngIf="cursosMinExamenFinal.length > 2">
+            <a href="" class="float-right">Ver m&aacute;s</a>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row">
   <div class="col-12 col-md-6">
     <h2>Primer Parcial</h2>
