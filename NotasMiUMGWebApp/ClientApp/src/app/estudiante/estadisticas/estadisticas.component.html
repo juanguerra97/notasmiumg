@@ -50,18 +50,18 @@
 
 <hr>
 
-<div class="row mb-md-4">
-  <div class="col-12 col-md-6">
-    <h2>Examen Final</h2>
+<div class="row">
+  <div class="col-12 col-md-6 mb-4">
+    <h2>Zona</h2>
 
     <div class="row">
       <div class="col">
-        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ maxExamenFinal }}</span></p>
+        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ maxZona }}</span></p>
         <ul class="list-group">
-          <li *ngFor="let c of cursosMaxExamenFinal.slice(0,2)" class="list-group-item">
+          <li *ngFor="let c of cursosMaxZona.slice(0,2)" class="list-group-item">
             {{ c.nombreCurso + ' ' + c.ano}}
           </li>
-          <div *ngIf="cursosMaxExamenFinal.length > 2">
+          <div *ngIf="cursosMaxZona.length > 2">
             <a href="" class="float-right">Ver m&aacute;s</a>
           </div>
         </ul>
@@ -69,12 +69,12 @@
     </div>
     <div class="row">
       <div class="col">
-        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ minExamenFinal }}</span></p>
+        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ minZona }}</span></p>
         <ul class="list-group">
-          <li *ngFor="let c of cursosMinExamenFinal.slice(0,2)" class="list-group-item">
+          <li *ngFor="let c of cursosMinZona.slice(0,2)" class="list-group-item">
             {{ c.nombreCurso + ' ' + c.ano}}
           </li>
-          <div *ngIf="cursosMinExamenFinal.length > 2">
+          <div *ngIf="cursosMinZona.length > 2">
             <a href="" class="float-right">Ver m&aacute;s</a>
           </div>
         </ul>
@@ -84,7 +84,7 @@
 </div>
 
 <div class="row">
-  <div class="col-12 col-md-6">
+  <div class="col-12 col-md-6 mb-4">
     <h2>Primer Parcial</h2>
 
     <div class="row">
@@ -115,7 +115,7 @@
     </div>
   </div>
 
-  <div class="col-12 col-md-6">
+  <div class="col-12 col-md-6 mb-4">
     <h2>Segundo Parcial</h2>
 
     <div class="row">
@@ -148,3 +148,67 @@
 
 </div>
 
+<div class="row">
+
+  <div class="col-12 col-md-6 mb-4">
+    <h2>Actividades</h2>
+
+    <div class="row">
+      <div class="col">
+        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ maxActividades }}</span></p>
+        <ul class="list-group">
+          <li *ngFor="let c of cursosMaxActividades.slice(0,2)" class="list-group-item">
+            {{ c.nombreCurso + ' ' + c.ano}}
+          </li>
+          <div *ngIf="cursosMaxActividades.length > 2">
+            <a href="" class="float-right">Ver m&aacute;s</a>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ minActividades }}</span></p>
+        <ul class="list-group">
+          <li *ngFor="let c of cursosMinActividades.slice(0,2)" class="list-group-item">
+            {{ c.nombreCurso + ' ' + c.ano}}
+          </li>
+          <div *ngIf="cursosMinActividades.length > 2">
+            <a href="" class="float-right">Ver m&aacute;s</a>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-6 mb-4">
+    <h2>Examen Final</h2>
+
+    <div class="row">
+      <div class="col">
+        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ maxExamenFinal }}</span></p>
+        <ul class="list-group">
+          <li *ngFor="let c of cursosMaxExamenFinal.slice(0,2)" class="list-group-item">
+            {{ c.nombreCurso + ' ' + c.ano}}
+          </li>
+          <div *ngIf="cursosMaxExamenFinal.length > 2">
+            <a href="" class="float-right">Ver m&aacute;s</a>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ minExamenFinal }}</span></p>
+        <ul class="list-group">
+          <li *ngFor="let c of cursosMinExamenFinal.slice(0,2)" class="list-group-item">
+            {{ c.nombreCurso + ' ' + c.ano}}
+          </li>
+          <div *ngIf="cursosMinExamenFinal.length > 2">
+            <a href="" class="float-right">Ver m&aacute;s</a>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

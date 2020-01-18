@@ -32,6 +32,16 @@ export class EstadisticasComponent implements OnInit {
   public cursosMaxSegundoParcial: any[] = [];
   public cursosMinSegundoParcial: any[] = [];
 
+  public maxActividades = 0;
+  public minActividades = 0;
+  public cursosMaxActividades: any[] = [];
+  public cursosMinActividades: any[] = [];
+
+  public maxZona = 0;
+  public minZona = 0;
+  public cursosMaxZona: any[] = [];
+  public cursosMinZona: any[] = [];
+
   promedioAnualChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -102,6 +112,26 @@ export class EstadisticasComponent implements OnInit {
           this.cursosMaxSegundoParcial = res.data.max.cursos;
           this.minSegundoParcial = res.data.min.val;
           this.cursosMinSegundoParcial = res.data.min.cursos;
+        }
+      }, console.error);
+
+    this.estadisticaService.getActividades()
+      .subscribe((res: ServerResponse) => {
+        if(res.status == 200) {
+          this.maxActividades = res.data.max.val;
+          this.cursosMaxActividades = res.data.max.cursos;
+          this.minActividades = res.data.min.val;
+          this.cursosMinActividades = res.data.min.cursos;
+        }
+      }, console.error);
+
+    this.estadisticaService.getZonas()
+      .subscribe((res: ServerResponse) => {
+        if(res.status == 200) {
+          this.maxZona = res.data.max.val;
+          this.cursosMaxZona = res.data.max.cursos;
+          this.minZona = res.data.min.val;
+          this.cursosMinZona = res.data.min.cursos;
         }
       }, console.error);
 
