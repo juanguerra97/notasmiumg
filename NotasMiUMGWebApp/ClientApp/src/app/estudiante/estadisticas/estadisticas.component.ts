@@ -4,6 +4,15 @@ import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
 import ServerResponse from '../../model/ServerResponse';
 
+// interfaz para representar las estadisticas
+// de las nota(nota final, zona, parciales, etc.)
+interface EstadisticaNota {
+  max: number;
+  maxCursos: any[];
+  min: number;
+  minCursos: any[];
+}
+
 @Component({
   selector: 'app-estadisticas',
   templateUrl: './estadisticas.component.html',
@@ -17,35 +26,12 @@ export class EstadisticasComponent implements OnInit {
   public cursosAprobados = 0;
   public cursosReprobados = 0;
 
-  public maxExamenFinal = 0;
-  public minExamenFinal = 0;
-  public cursosMaxExamenFinal: any[] = [];
-  public cursosMinExamenFinal: any[] = [];
-
-  public maxPrimerParcial = 0;
-  public minPrimerParcial = 0;
-  public cursosMaxPrimerParcial: any[] = [];
-  public cursosMinPrimerParcial: any[] = [];
-
-  public maxSegundoParcial = 0;
-  public minSegundoParcial = 0;
-  public cursosMaxSegundoParcial: any[] = [];
-  public cursosMinSegundoParcial: any[] = [];
-
-  public maxActividades = 0;
-  public minActividades = 0;
-  public cursosMaxActividades: any[] = [];
-  public cursosMinActividades: any[] = [];
-
-  public maxZona = 0;
-  public minZona = 0;
-  public cursosMaxZona: any[] = [];
-  public cursosMinZona: any[] = [];
-
-  public maxNotaFinal = 0;
-  public minNotaFinal = 0;
-  public cursosMaxNotaFinal: any[] = [];
-  public cursosMinNotaFinal: any[] = [];
+  public notasFinales: EstadisticaNota = null;
+  public zonas: EstadisticaNota = null;
+  public primerosParciales: EstadisticaNota = null;
+  public segundosParciales: EstadisticaNota = null;
+  public examenesFinales: EstadisticaNota = null;
+  public actividades: EstadisticaNota = null;
 
   promedioAnualChartOptions: ChartOptions = {
     responsive: true,
@@ -93,60 +79,42 @@ export class EstadisticasComponent implements OnInit {
     this.estadisticaService.getNotasFinales()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.maxNotaFinal = res.data.max.val;
-          this.cursosMaxNotaFinal = res.data.max.cursos;
-          this.minNotaFinal = res.data.min.val;
-          this.cursosMinNotaFinal = res.data.min.cursos;
+          this.notasFinales = this.responseToEstadistica(res.data);
         }
       }, console.error);
 
     this.estadisticaService.getZonas()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.maxZona = res.data.max.val;
-          this.cursosMaxZona = res.data.max.cursos;
-          this.minZona = res.data.min.val;
-          this.cursosMinZona = res.data.min.cursos;
+          this.zonas = this.responseToEstadistica(res.data);
         }
       }, console.error);
 
     this.estadisticaService.getPrimerosParciales()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.maxPrimerParcial = res.data.max.val;
-          this.cursosMaxPrimerParcial = res.data.max.cursos;
-          this.minPrimerParcial = res.data.min.val;
-          this.cursosMinPrimerParcial = res.data.min.cursos;
+          this.primerosParciales = this.responseToEstadistica(res.data);
         }
       }, console.error);
 
     this.estadisticaService.getSegundosParciales()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.maxSegundoParcial = res.data.max.val;
-          this.cursosMaxSegundoParcial = res.data.max.cursos;
-          this.minSegundoParcial = res.data.min.val;
-          this.cursosMinSegundoParcial = res.data.min.cursos;
+          this.segundosParciales = this.responseToEstadistica(res.data);
         }
       }, console.error);
 
     this.estadisticaService.getActividades()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.maxActividades = res.data.max.val;
-          this.cursosMaxActividades = res.data.max.cursos;
-          this.minActividades = res.data.min.val;
-          this.cursosMinActividades = res.data.min.cursos;
+          this.actividades = this.responseToEstadistica(res.data);
         }
       }, console.error);
 
     this.estadisticaService.getExamenesFinales()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.maxExamenFinal = res.data.max.val;
-          this.cursosMaxExamenFinal = res.data.max.cursos;
-          this.minExamenFinal = res.data.min.val;
-          this.cursosMinExamenFinal = res.data.min.cursos;
+          this.examenesFinales = this.responseToEstadistica(res.data);
         }
       }, console.error);
 
@@ -165,5 +133,15 @@ export class EstadisticasComponent implements OnInit {
     this.mostrarChartPromedioSemestral = true;
   }
 
+  // funcion que transforma los datos de la respuesta de un endpoint para una estadistica
+  // individual de una nota en un objeto del tipo EstadisticaNota
+  private responseToEstadistica(data: any): EstadisticaNota {
+    return {
+      max: data.max.val,
+      maxCursos: data.max.cursos,
+      min: data.min.val,
+      minCursos: data.min.cursos
+    };
+  }
 
 }
