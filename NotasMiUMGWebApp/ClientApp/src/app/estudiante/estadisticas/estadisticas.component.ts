@@ -38,19 +38,19 @@ export class EstadisticasComponent implements OnInit {
   constructor(private estadisticaService: EstadisticaService) { }
 
   ngOnInit() {
-    this.estadisticaService.getPromedios()
+    this.estadisticaService.getResumen()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.promedioGeneral = res.data.general;
-          this.crearChartPromedioAnual(res.data.anual);
-          this.crearChartPromedioSemestral(res.data.semestral);
+          this.promedioGeneral = res.data.promedio;
+          this.totalCreditos = res.data.creditos;
         }
       }, console.error);
 
-    this.estadisticaService.getCreditos()
+    this.estadisticaService.getPromedios()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.totalCreditos = res.data.total;
+          this.crearChartPromedioAnual(res.data.anual);
+          this.crearChartPromedioSemestral(res.data.semestral);
         }
       }, console.error);
   }

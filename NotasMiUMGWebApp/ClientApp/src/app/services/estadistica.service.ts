@@ -13,6 +13,10 @@ export class EstadisticaService {
 
   constructor(private http: HttpClient) { }
 
+  public getResumen(): Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/resumen`);
+  }
+
   public getPromedios(): Observable<ServerResponse> {
     return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/promedios`);
   }

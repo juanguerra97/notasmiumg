@@ -29,6 +29,37 @@ namespace NotasMiUMGWebApp.Controllers
 
         [Authorize]
         [HttpGet]
+        [Route("resumen")]
+        public async Task<IActionResult> GetResumen()
+        {
+            var estud = await GetEstudiante();
+            if (estud == null)
+            {
+                return Forbid();
+            }
+
+            var notas = estud.Notas;
+            var notasAprobadas = notas.Where(n => n.Aprobado);
+
+            return Ok(new { 
+                status = 200,
+                message = "Resumen de estadísticas",
+                data = new { 
+                    promedio = notasAprobadas.Average(n => n.NotaFinal), // promedio general
+                    creditos = notasAprobadas.Sum(n => n.PensumCurso.Creditos), // total de creditos acumulados con los cursos aprobados,
+                    cursos = new
+                    {
+                        total = notas.Count(), // total de cursos llevados
+                        aprobados = notasAprobadas.Count(), // total de cursos aprobados
+                        reprobados = notas.Count() - notasAprobadas.Count(), // total de cursos reprobados
+                    }
+                }
+            });
+
+        }
+
+        [Authorize]
+        [HttpGet]
         [Route("promedios")]        
         public async Task<IActionResult> GetPromedios()
         {
@@ -82,7 +113,6 @@ namespace NotasMiUMGWebApp.Controllers
                 message = "Promedios",
                 data = new
                 {
-                    general = notas.Average(n => n.NotaFinal), // promedio general
                     anual = promediosAnual,
                     semestral = promediosSemestral,
                     maxanual = promediosAnual // promedio(s) mas grande(s) en un anio
