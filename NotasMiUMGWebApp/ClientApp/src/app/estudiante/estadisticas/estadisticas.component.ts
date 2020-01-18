@@ -42,6 +42,11 @@ export class EstadisticasComponent implements OnInit {
   public cursosMaxZona: any[] = [];
   public cursosMinZona: any[] = [];
 
+  public maxNotaFinal = 0;
+  public minNotaFinal = 0;
+  public cursosMaxNotaFinal: any[] = [];
+  public cursosMinNotaFinal: any[] = [];
+
   promedioAnualChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -85,13 +90,23 @@ export class EstadisticasComponent implements OnInit {
         }
       }, console.error);
 
-    this.estadisticaService.getExamenesFinales()
+    this.estadisticaService.getNotasFinales()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.maxExamenFinal = res.data.max.val;
-          this.cursosMaxExamenFinal = res.data.max.cursos;
-          this.minExamenFinal = res.data.min.val;
-          this.cursosMinExamenFinal = res.data.min.cursos;
+          this.maxNotaFinal = res.data.max.val;
+          this.cursosMaxNotaFinal = res.data.max.cursos;
+          this.minNotaFinal = res.data.min.val;
+          this.cursosMinNotaFinal = res.data.min.cursos;
+        }
+      }, console.error);
+
+    this.estadisticaService.getZonas()
+      .subscribe((res: ServerResponse) => {
+        if(res.status == 200) {
+          this.maxZona = res.data.max.val;
+          this.cursosMaxZona = res.data.max.cursos;
+          this.minZona = res.data.min.val;
+          this.cursosMinZona = res.data.min.cursos;
         }
       }, console.error);
 
@@ -125,13 +140,13 @@ export class EstadisticasComponent implements OnInit {
         }
       }, console.error);
 
-    this.estadisticaService.getZonas()
+    this.estadisticaService.getExamenesFinales()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.maxZona = res.data.max.val;
-          this.cursosMaxZona = res.data.max.cursos;
-          this.minZona = res.data.min.val;
-          this.cursosMinZona = res.data.min.cursos;
+          this.maxExamenFinal = res.data.max.val;
+          this.cursosMaxExamenFinal = res.data.max.cursos;
+          this.minExamenFinal = res.data.min.val;
+          this.cursosMinExamenFinal = res.data.min.cursos;
         }
       }, console.error);
 

@@ -21,6 +21,10 @@ export class EstadisticaService {
     return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/promedios`);
   }
 
+  public getNotasFinales(): Observable<ServerResponse> {
+    return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/notafinal`);
+  }
+
   public getExamenesFinales(): Observable<ServerResponse> {
     return this.http.get<ServerResponse>(`${EstadisticaService.ESTADISTICA_API_URL}/examenfinal`);
   }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using jguerra.notasmiumg;
@@ -125,6 +123,51 @@ namespace NotasMiUMGWebApp.Controllers
                         .OrderBy(r => r.ano)
                 }
             });
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("notafinal")]
+        public async Task<IActionResult> GetNotasFinales()
+        {
+            var estud = await GetEstudiante();
+            if (estud == null)
+            {
+                return Forbid();
+            }
+
+            var notas = estud.Notas;
+
+            byte? maxNotaFinal = notas.Max(n => n.NotaFinal);
+            byte? minNotaFinal = notas.Min(n => n.NotaFinal);
+
+            return Ok(new { 
+                status = 200,
+                message = "Estadísticas notas finales",
+                data = new { 
+                    max = new
+                    {
+                        val = maxNotaFinal, // nota final mas alta
+                        cursos = notas.Where(n => n.NotaFinal == maxNotaFinal)
+                        .Select(n => new {
+                            n.PensumCurso.Curso.NombreCurso,
+                            n.Ano,
+                            n.Aprobado
+                        })
+                    },
+                    min = new
+                    {
+                        val = minNotaFinal, // nota final mas baja
+                        cursos = notas.Where(n => n.NotaFinal == minNotaFinal)
+                        .Select(n => new {
+                            n.PensumCurso.Curso.NombreCurso,
+                            n.Ano,
+                            n.Aprobado
+                        })
+                    }
+                }
+            });
+
         }
 
         [Authorize]
