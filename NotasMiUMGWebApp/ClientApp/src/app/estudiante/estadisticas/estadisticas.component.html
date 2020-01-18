@@ -1,9 +1,11 @@
 
 <div class="row mt-2 mt-md-3">
   <div class="col">
-    <h2>Resumen</h2>
-    <p>Promedio: {{ promedioGeneral }}</p>
-    <p>Cr&eacute;ditos: {{ totalCreditos }}</p>
+    <div class="resumen">
+      <h2>Resumen</h2>
+      <p class="item-resumen">Promedio: <span class="val-item-resumen badge badge-primary">{{ promedioGeneral }}</span></p>
+      <p class="item-resumen">Cr&eacute;ditos: <span class="val-item-resumen badge badge-dark">{{ totalCreditos }}</span></p>
+    </div>
   </div>
 </div>
 
