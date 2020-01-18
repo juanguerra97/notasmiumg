@@ -9,9 +9,16 @@ import ServerResponse from '../../model/ServerResponse';
 interface EstadisticaNota {
   nombre: string; // nombre de la estadistica
   max: number;
-  maxCursos: any[];
+  maxCursos: CursoEstadisticaNota[];
   min: number;
-  minCursos: any[];
+  minCursos: CursoEstadisticaNota[];
+}
+
+// datos de los cursos que aparecen en las estadisticas de las notas
+interface CursoEstadisticaNota {
+  nombreCurso: string;
+  ano: number;
+  aprobado: boolean;
 }
 
 @Component({
