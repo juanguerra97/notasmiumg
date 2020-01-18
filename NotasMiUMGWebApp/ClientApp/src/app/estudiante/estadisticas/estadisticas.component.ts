@@ -13,6 +13,9 @@ export class EstadisticasComponent implements OnInit {
 
   public promedioGeneral = 0;
   public totalCreditos = 0;
+  public numCursos = 0;
+  public cursosAprobados = 0;
+  public cursosReprobados = 0;
 
   promedioAnualChartOptions: ChartOptions = {
     responsive: true,
@@ -43,6 +46,9 @@ export class EstadisticasComponent implements OnInit {
         if(res.status == 200) {
           this.promedioGeneral = res.data.promedio;
           this.totalCreditos = res.data.creditos;
+          this.numCursos = res.data.cursos.total;
+          this.cursosAprobados = res.data.cursos.aprobados;
+          this.cursosReprobados = res.data.cursos.reprobados;
         }
       }, console.error);
 

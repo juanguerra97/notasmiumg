@@ -3,8 +3,17 @@
   <div class="col">
     <div class="resumen">
       <h2>Resumen</h2>
-      <p class="item-resumen">Promedio: <span class="val-item-resumen badge badge-primary">{{ promedioGeneral }}</span></p>
-      <p class="item-resumen">Cr&eacute;ditos: <span class="val-item-resumen badge badge-dark">{{ totalCreditos }}</span></p>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+          <p class="item-resumen">Promedio: <span class="val-item-resumen badge badge-primary">{{ promedioGeneral }}</span></p>
+          <p class="item-resumen">Cr&eacute;ditos: <span class="val-item-resumen badge badge-dark">{{ totalCreditos }}</span></p>
+        </div>
+        <div class="col-12 col-sm-4 col-md-3 col-lg-2 mt-3 mt-sm-0">
+          <p class="item-resumen">Cursos: <span class="val-item-resumen badge badge-primary">{{ numCursos }}</span></p>
+          <p class="item-resumen"><span class="ml-3 badge badge-success">{{ cursosAprobados }}</span> aprobados
+          <p class="item-resumen"><span class="ml-3 badge badge-danger">{{ cursosReprobados }}</span> reprobados</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
