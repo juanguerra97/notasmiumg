@@ -51,196 +51,36 @@
 <hr>
 
 <div class="row">
+  <ng-container *ngFor="let stat of estadisticasNotas">
+    <div *ngIf="stat"  class="col-12 col-md-6 mb-4">
+      <h2>{{ stat.nombre }}</h2>
 
-  <div *ngIf="notasFinales" class="col-12 col-md-6 mb-4">
-    <h2>Nota Final</h2>
-
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ notasFinales.max}}</span></p>
-        <ul class="list-group">
-          <li *ngFor="let c of notasFinales.maxCursos.slice(0,2)" class="list-group-item">
-            {{ c.nombreCurso + ' ' + c.ano}}
-          </li>
-          <div *ngIf="notasFinales.maxCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ notasFinales.min }}</span></p>
-        <ul class="list-group">
-          <li *ngFor="let c of notasFinales.minCursos.slice(0,2)" class="list-group-item">
-            {{ c.nombreCurso + ' ' + c.ano}}
-          </li>
-          <div *ngIf="notasFinales.minCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-md-6 mb-4" *ngIf="zonas">
-    <h2>Zona</h2>
-
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ zonas.max }}</span></p>
-        <ul class="list-group">
-          <li *ngFor="let c of zonas.maxCursos.slice(0,2)" class="list-group-item">
-            {{ c.nombreCurso + ' ' + c.ano}}
-          </li>
-          <div *ngIf="zonas.maxCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ zonas.min }}</span></p>
-        <ul class="list-group">
-          <li *ngFor="let c of zonas.minCursos.slice(0,2)" class="list-group-item">
-            {{ c.nombreCurso + ' ' + c.ano}}
-          </li>
-          <div *ngIf="zonas.minCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-12 col-md-6 mb-4" *ngIf="primerosParciales">
-    <h2>Primer Parcial</h2>
-
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ primerosParciales.max }}</span></p>
-        <ul class="list-group">
-            <li *ngFor="let c of primerosParciales.maxCursos.slice(0,2)" class="list-group-item">
-                {{ c.nombreCurso + ' ' + c.ano}}
+      <div class="row">
+        <div class="col">
+          <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ stat.max}}</span></p>
+          <ul class="list-group">
+            <li *ngFor="let c of stat.maxCursos.slice(0,2)" class="list-group-item">
+              {{ c.nombreCurso + ' ' + c.ano}}
             </li>
-          <div *ngIf="primerosParciales.maxCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
+            <div *ngIf="stat.maxCursos.length > 2">
+              <a href="" class="float-right">Ver m&aacute;s</a>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ stat.min }}</span></p>
+          <ul class="list-group">
+            <li *ngFor="let c of stat.minCursos.slice(0,2)" class="list-group-item">
+              {{ c.nombreCurso + ' ' + c.ano}}
+            </li>
+            <div *ngIf="stat.minCursos.length > 2">
+              <a href="" class="float-right">Ver m&aacute;s</a>
+            </div>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ primerosParciales.min }}</span></p>
-        <ul class="list-group">
-          <li *ngFor="let c of primerosParciales.minCursos.slice(0,2)" class="list-group-item">
-            {{ c.nombreCurso + ' ' + c.ano}}
-          </li>
-          <div *ngIf="primerosParciales.minCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-md-6 mb-4" *ngIf="segundosParciales">
-    <h2>Segundo Parcial</h2>
-
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ segundosParciales.max }}</span></p>
-        <ul class="list-group">
-          <li *ngFor="let c of segundosParciales.maxCursos.slice(0,2)" class="list-group-item">
-            {{ c.nombreCurso + ' ' + c.ano}}
-          </li>
-          <div *ngIf="segundosParciales.maxCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ segundosParciales.min }}</span></p>
-        <ul class="list-group">
-          <li *ngFor="let c of segundosParciales.minCursos.slice(0,2)" class="list-group-item">
-            {{ c.nombreCurso + ' ' + c.ano}}
-          </li>
-          <div *ngIf="segundosParciales.minCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<div class="row">
-
-  <div class="col-12 col-md-6 mb-4" *ngIf="actividades">
-    <h2>Actividades</h2>
-
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ actividades.max }}</span></p>
-        <ul class="list-group">
-          <li *ngFor="let c of actividades.maxCursos.slice(0,2)" class="list-group-item">
-            {{ c.nombreCurso + ' ' + c.ano}}
-          </li>
-          <div *ngIf="actividades.maxCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ actividades.min }}</span></p>
-        <ul class="list-group">
-          <li *ngFor="let c of actividades.minCursos.slice(0,2)" class="list-group-item">
-            {{ c.nombreCurso + ' ' + c.ano}}
-          </li>
-          <div *ngIf="actividades.minCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-md-6 mb-4" *ngIf="examenesFinales">
-    <h2>Examen Final</h2>
-
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ examenesFinales.max }}</span></p>
-        <ul class="list-group">
-          <li *ngFor="let c of examenesFinales.maxCursos.slice(0,2)" class="list-group-item">
-            {{ c.nombreCurso + ' ' + c.ano}}
-          </li>
-          <div *ngIf="examenesFinales.maxCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ examenesFinales.min }}</span></p>
-        <ul class="list-group">
-          <li *ngFor="let c of examenesFinales.minCursos.slice(0,2)" class="list-group-item">
-            {{ c.nombreCurso + ' ' + c.ano}}
-          </li>
-          <div *ngIf="examenesFinales.minCursos.length > 2">
-            <a href="" class="float-right">Ver m&aacute;s</a>
-          </div>
-        </ul>
-      </div>
-    </div>
-  </div>
+  </ng-container>
 </div>

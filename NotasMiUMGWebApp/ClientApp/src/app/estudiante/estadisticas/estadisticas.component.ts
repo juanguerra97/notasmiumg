@@ -7,6 +7,7 @@ import ServerResponse from '../../model/ServerResponse';
 // interfaz para representar las estadisticas
 // de las nota(nota final, zona, parciales, etc.)
 interface EstadisticaNota {
+  nombre: string; // nombre de la estadistica
   max: number;
   maxCursos: any[];
   min: number;
@@ -26,12 +27,9 @@ export class EstadisticasComponent implements OnInit {
   public cursosAprobados = 0;
   public cursosReprobados = 0;
 
-  public notasFinales: EstadisticaNota = null;
-  public zonas: EstadisticaNota = null;
-  public primerosParciales: EstadisticaNota = null;
-  public segundosParciales: EstadisticaNota = null;
-  public examenesFinales: EstadisticaNota = null;
-  public actividades: EstadisticaNota = null;
+  // array con las estadisticas de las notas
+  // cada estadistica es null miestras no se hallan cargado sus datos
+  public estadisticasNotas: EstadisticaNota[] = [ null, null, null, null, null, null];
 
   promedioAnualChartOptions: ChartOptions = {
     responsive: true,
@@ -57,6 +55,15 @@ export class EstadisticasComponent implements OnInit {
   constructor(private estadisticaService: EstadisticaService) { }
 
   ngOnInit() {
+
+    // indices de cada estadistica en el array
+    const indexNotasFinales = 0;
+    const indexZonas = indexNotasFinales + 1;
+    const indexPrimerosParciales = indexZonas + 1;
+    const indexSegundosParciales = indexPrimerosParciales + 1;
+    const indexExamenesFinales = indexSegundosParciales + 1;
+    const indexActividades = indexExamenesFinales + 1;
+
     this.estadisticaService.getResumen()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
@@ -79,42 +86,42 @@ export class EstadisticasComponent implements OnInit {
     this.estadisticaService.getNotasFinales()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.notasFinales = this.responseToEstadistica(res.data);
+          this.estadisticasNotas[indexNotasFinales] = this.responseToEstadistica(res.data, 'Nota Final');
         }
       }, console.error);
 
     this.estadisticaService.getZonas()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.zonas = this.responseToEstadistica(res.data);
+          this.estadisticasNotas[indexZonas] = this.responseToEstadistica(res.data, 'Zona');
         }
       }, console.error);
 
     this.estadisticaService.getPrimerosParciales()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.primerosParciales = this.responseToEstadistica(res.data);
+          this.estadisticasNotas[indexPrimerosParciales] = this.responseToEstadistica(res.data, 'Primer Parcial');
         }
       }, console.error);
 
     this.estadisticaService.getSegundosParciales()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.segundosParciales = this.responseToEstadistica(res.data);
+          this.estadisticasNotas[indexSegundosParciales] = this.responseToEstadistica(res.data, 'Segundo Parcial');
         }
       }, console.error);
 
     this.estadisticaService.getActividades()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.actividades = this.responseToEstadistica(res.data);
+          this.estadisticasNotas[indexActividades] = this.responseToEstadistica(res.data, 'Actividades');
         }
       }, console.error);
 
     this.estadisticaService.getExamenesFinales()
       .subscribe((res: ServerResponse) => {
         if(res.status == 200) {
-          this.examenesFinales = this.responseToEstadistica(res.data);
+          this.estadisticasNotas[indexExamenesFinales] = this.responseToEstadistica(res.data, 'Examen Final');
         }
       }, console.error);
 
@@ -135,8 +142,9 @@ export class EstadisticasComponent implements OnInit {
 
   // funcion que transforma los datos de la respuesta de un endpoint para una estadistica
   // individual de una nota en un objeto del tipo EstadisticaNota
-  private responseToEstadistica(data: any): EstadisticaNota {
+  private responseToEstadistica(data: any, nombre: string): EstadisticaNota {
     return {
+      nombre,
       max: data.max.val,
       maxCursos: data.max.cursos,
       min: data.min.val,
