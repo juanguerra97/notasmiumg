@@ -17,6 +17,16 @@ export class EstadisticasComponent implements OnInit {
   public cursosAprobados = 0;
   public cursosReprobados = 0;
 
+  public maxPrimerParcial = 0;
+  public minPrimerParcial = 0;
+  public cursosMaxPrimerParcial: any[] = [];
+  public cursosMinPrimerParcial: any[] = [];
+
+  public maxSegundoParcial = 0;
+  public minSegundoParcial = 0;
+  public cursosMaxSegundoParcial: any[] = [];
+  public cursosMinSegundoParcial: any[] = [];
+
   promedioAnualChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -59,6 +69,27 @@ export class EstadisticasComponent implements OnInit {
           this.crearChartPromedioSemestral(res.data.semestral);
         }
       }, console.error);
+
+    this.estadisticaService.getPrimerosParciales()
+      .subscribe((res: ServerResponse) => {
+        if(res.status == 200) {
+          this.maxPrimerParcial = res.data.max.val;
+          this.cursosMaxPrimerParcial = res.data.max.cursos;
+          this.minPrimerParcial = res.data.min.val;
+          this.cursosMinPrimerParcial = res.data.min.cursos;
+        }
+      }, console.error);
+
+    this.estadisticaService.getSegundosParciales()
+      .subscribe((res: ServerResponse) => {
+        if(res.status == 200) {
+          this.maxSegundoParcial = res.data.max.val;
+          this.cursosMaxSegundoParcial = res.data.max.cursos;
+          this.minSegundoParcial = res.data.min.val;
+          this.cursosMinSegundoParcial = res.data.min.cursos;
+        }
+      }, console.error);
+
   }
 
   private crearChartPromedioAnual(promediosAnual: any[]): void {

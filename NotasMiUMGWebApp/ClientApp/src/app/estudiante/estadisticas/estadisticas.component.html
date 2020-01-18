@@ -5,13 +5,13 @@
       <h2>Resumen</h2>
       <div class="row">
         <div class="col-12 col-sm-4 col-md-3 col-lg-2">
-          <p class="item-resumen">Promedio: <span class="val-item-resumen badge badge-primary">{{ promedioGeneral }}</span></p>
-          <p class="item-resumen">Cr&eacute;ditos: <span class="val-item-resumen badge badge-dark">{{ totalCreditos }}</span></p>
+          <p class="item-resumen">Promedio:&nbsp;<span class="val-item-resumen badge badge-primary">{{ promedioGeneral }}</span></p>
+          <p class="item-resumen">Cr&eacute;ditos:&nbsp;<span class="val-item-resumen badge badge-dark">{{ totalCreditos }}</span></p>
         </div>
         <div class="col-12 col-sm-4 col-md-3 col-lg-2 mt-3 mt-sm-0">
-          <p class="item-resumen">Cursos: <span class="val-item-resumen badge badge-primary">{{ numCursos }}</span></p>
-          <p class="item-resumen"><span class="ml-3 badge badge-success">{{ cursosAprobados }}</span> aprobados
-          <p class="item-resumen"><span class="ml-3 badge badge-danger">{{ cursosReprobados }}</span> reprobados</p>
+          <p class="item-resumen">Cursos:&nbsp;<span class="val-item-resumen badge badge-primary">{{ numCursos }}</span></p>
+          <p class="item-resumen"><span class="ml-3 badge badge-success">{{ cursosAprobados }}</span>&nbsp;aprobados</p>
+          <p class="item-resumen"><span class="ml-3 badge badge-danger">{{ cursosReprobados }}</span>&nbsp;reprobados</p>
         </div>
       </div>
     </div>
@@ -48,4 +48,70 @@
 
 </div>
 
+<hr>
+
+<div class="row">
+  <div class="col-12 col-md-6">
+    <h2>Primer Parcial</h2>
+
+    <div class="row">
+      <div class="col">
+        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ maxPrimerParcial }}</span></p>
+        <ul class="list-group">
+            <li *ngFor="let c of cursosMaxPrimerParcial.slice(0,2)" class="list-group-item">
+                {{ c.nombreCurso + ' ' + c.ano}}
+            </li>
+          <div *ngIf="cursosMaxPrimerParcial.length > 2">
+            <a href="" class="float-right">Ver m&aacute;s</a>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ minPrimerParcial }}</span></p>
+        <ul class="list-group">
+          <li *ngFor="let c of cursosMinPrimerParcial.slice(0,2)" class="list-group-item">
+            {{ c.nombreCurso + ' ' + c.ano}}
+          </li>
+          <div *ngIf="cursosMinPrimerParcial.length > 2">
+            <a href="" class="float-right">Ver m&aacute;s</a>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-6">
+    <h2>Segundo Parcial</h2>
+
+    <div class="row">
+      <div class="col">
+        <p class="item-resumen">Nota m&aacute;s alta&nbsp;<span class="badge badge-success">{{ maxSegundoParcial }}</span></p>
+        <ul class="list-group">
+          <li *ngFor="let c of cursosMaxSegundoParcial.slice(0,2)" class="list-group-item">
+            {{ c.nombreCurso + ' ' + c.ano}}
+          </li>
+          <div *ngIf="cursosMaxSegundoParcial.length > 2">
+            <a href="" class="float-right">Ver m&aacute;s</a>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p class="item-resumen">Nota m&aacute;s baja&nbsp;<span class="badge badge-warning">{{ minSegundoParcial }}</span></p>
+        <ul class="list-group">
+          <li *ngFor="let c of cursosMinSegundoParcial.slice(0,2)" class="list-group-item">
+            {{ c.nombreCurso + ' ' + c.ano}}
+          </li>
+          <div *ngIf="cursosMinSegundoParcial.length > 2">
+            <a href="" class="float-right">Ver m&aacute;s</a>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
 
