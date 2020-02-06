@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { EstadisticaService } from '../../services/estadistica.service';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
+import { EstadisticaService } from '../../services/estadistica.service';
 import ServerResponse from '../../model/ServerResponse';
 
 // interfaz para representar las estadisticas
@@ -28,6 +31,8 @@ interface CursoEstadisticaNota {
 })
 export class EstadisticasComponent implements OnInit {
 
+  faTimes = faTimes;
+
   public promedioGeneral = 0;
   public totalCreditos = 0;
   public numCursos = 0;
@@ -37,6 +42,8 @@ export class EstadisticasComponent implements OnInit {
   // array con las estadisticas de las notas
   // cada estadistica es null miestras no se hallan cargado sus datos
   public estadisticasNotas: EstadisticaNota[] = [ null, null, null, null, null, null];
+
+  public cursosModal: CursoEstadisticaNota[] = [];
 
   promedioAnualChartOptions: ChartOptions = {
     responsive: true,
@@ -59,7 +66,10 @@ export class EstadisticasComponent implements OnInit {
   promedioSemestralChartData: ChartDataSets[] = [];
   public mostrarChartPromedioSemestral = false;
 
-  constructor(private estadisticaService: EstadisticaService) { }
+  constructor(
+    private estadisticaService: EstadisticaService,
+    private modalService: NgbModal
+  ) { }
 
   ngOnInit() {
 
@@ -131,6 +141,18 @@ export class EstadisticasComponent implements OnInit {
           this.estadisticasNotas[indexExamenesFinales] = this.responseToEstadistica(res.data, 'Examen Final');
         }
       }, console.error);
+
+  }
+
+  public openModal(content, cursos: CursoEstadisticaNota[]): void {
+
+    this.cursosModal = cursos;
+
+    this.modalService.open(content, {
+      centered: true,
+      size: 'lg',
+      windowClass: 'animated bounceIn'
+    });
 
   }
 

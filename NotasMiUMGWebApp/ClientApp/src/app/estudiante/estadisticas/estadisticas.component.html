@@ -62,10 +62,14 @@
             <li *ngFor="let c of stat.maxCursos.slice(0,2)" class="list-group-item">
               {{ c.nombreCurso + ' ' + c.ano}}
             </li>
-            <div *ngIf="stat.maxCursos.length > 2">
-              <a href="" class="float-right">Ver m&aacute;s</a>
-            </div>
           </ul>
+            <div *ngIf="stat.maxCursos.length > 2">
+
+              <button (click)="openModal(content, stat.maxCursos)" type="button" class="btn btn-link btn-sm">
+                Ver m&aacute;s
+              </button>
+
+            </div>
         </div>
       </div>
       <div class="row">
@@ -75,12 +79,30 @@
             <li *ngFor="let c of stat.minCursos.slice(0,2)" class="list-group-item">
               {{ c.nombreCurso + ' ' + c.ano}}
             </li>
-            <div *ngIf="stat.minCursos.length > 2">
-              <a href="" class="float-right">Ver m&aacute;s</a>
-            </div>
           </ul>
+            <div *ngIf="stat.minCursos.length > 2">
+              <button (click)="openModal(content, stat.minCursos)" type="button" class="btn btn-link btn-sm">
+                Ver m&aacute;s
+              </button>
+            </div>
+
         </div>
       </div>
     </div>
   </ng-container>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('')">
+      <fa-icon [icon]="faTimes"></fa-icon>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group">
+      <li *ngFor="let c of cursosModal" class="list-group-item">
+        {{ c.nombreCurso + ' ' + c.ano}}
+      </li>
+    </ul>
+  </div>
+</ng-template>
